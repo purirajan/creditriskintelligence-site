@@ -1,4 +1,4 @@
-# CreditRisk Intelligence — Website
+# CreditDrishti — Website
 
 Public marketing site, served by GitHub Pages. Plain HTML/CSS/JS, so there's no build step.
 
