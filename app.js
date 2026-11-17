@@ -72,7 +72,17 @@ if (elForm) {
 }
 
 // ---------------------------------------------------------------------------
-// Backtest request form: submits to Formspree without leaving the page.
+// Contact page: preselect the topic from links such as contact.html?topic=privacy
+// ---------------------------------------------------------------------------
+const topicSelect = document.getElementById('topic');
+if (topicSelect) {
+  const topics = { privacy: 'Privacy request', terms: 'Terms of use', partnership: 'Partnership' };
+  const requested = topics[new URLSearchParams(window.location.search).get('topic')];
+  if (requested) topicSelect.value = requested;
+}
+
+// ---------------------------------------------------------------------------
+// Backtest request and contact forms: submit to Formspree without leaving the page.
 // Without JavaScript, the form still posts normally via its action attribute.
 // ---------------------------------------------------------------------------
 const contactForm = document.getElementById('contactForm');

@@ -47,8 +47,9 @@ Please keep it that way. Every claim on the site should be something the product
 |---|---|
 | `index.html` | Home page |
 | `privacy.html`, `terms.html` | Privacy policy and terms of use |
+| `contact.html` | General contact form (questions, privacy requests, terms) |
 | `styles.css` | Styles for all pages |
-| `app.js` | Example tabs, expected-loss calculator, form handler |
+| `app.js` | Example tabs, expected-loss calculator, contact topic preselect, form handler |
 | `sample-decision-package.pdf` | Downloadable sample (generated, see below) |
 | `og-image.png` | 1200×630 link-preview image (generated, see below) |
 | `dashboard-screenshot.png` | Screenshot of the product dashboard |
