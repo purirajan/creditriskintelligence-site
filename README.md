@@ -15,6 +15,7 @@ Public marketing site, served by GitHub Pages. Plain HTML/CSS/JS, so there's no 
 | `app.js` | Hero example tabs, expected-loss calculator, Formspree form handler |
 | `sample-decision-package.pdf` | Downloadable sample decision package (synthetic data) |
 | `og-image.png` | 1200×630 link-preview image |
+| `dashboard-screenshot.png` | Real dashboard screenshot (synthetic portfolio), from the private repo's `dashboard/` |
 | `robots.txt`, `sitemap.xml` | Search-engine files |
 | `CNAME` | Custom domain (creditdrishti.com) |
 | `.nojekyll` | Tells GitHub Pages to serve files as-is |

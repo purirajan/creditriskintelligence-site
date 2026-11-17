@@ -1240,6 +1240,36 @@ a.brand {
   line-height: 1.65;
 }
 
+/* ---------- Product screenshot ---------- */
+.screenshot {
+  margin: 32px 0 0;
+}
+
+.screenshot figcaption {
+  max-width: 720px;
+  margin-bottom: 16px;
+}
+
+.screenshot figcaption h3 {
+  margin: 0 0 6px;
+  font-size: 1.25rem;
+}
+
+.screenshot figcaption p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.screenshot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--panel-border);
+  border-radius: 18px;
+  box-shadow: 0 26px 50px var(--shadow);
+}
+
 /* Keyboard focus visible everywhere */
 a:focus-visible,
 button:focus-visible,
