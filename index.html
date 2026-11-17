@@ -3,10 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CreditDrishti</title>
+    <title>CreditDrishti — Underwriting for BNPL lenders</title>
     <meta
       name="description"
-      content="Decision-ready credit risk infrastructure for fintechs and credit unions."
+      content="The underwriting layer for BNPL and embedded-finance lenders that have outgrown spreadsheets. Approve, review or decline every application with the reasons attached."
+    />
+    <link rel="canonical" href="https://creditdrishti.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://creditdrishti.com/" />
+    <meta property="og:site_name" content="CreditDrishti" />
+    <meta property="og:title" content="CreditDrishti — Underwriting for BNPL lenders" />
+    <meta
+      property="og:description"
+      content="The underwriting layer for lenders that have outgrown spreadsheets. Fewer manual reviews, consistent policy, and a reason for every decision."
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta name="theme-color" content="#07131f" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2338bdf8'/%3E%3Ctext x='32' y='42' font-family='Arial,sans-serif' font-size='28' font-weight='800' text-anchor='middle' fill='%23021018'%3ECD%3C/text%3E%3C/svg%3E"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,320 +34,419 @@
   <body>
     <header class="topbar">
       <div class="container nav">
-        <div class="brand">
+        <a class="brand" href="#top">
           <span class="brand-mark">CD</span>
           <span>CreditDrishti</span>
-        </div>
+        </a>
         <nav class="menu">
-          <a href="#solution">Solution</a>
-          <a href="#outputs">Outputs</a>
-          <a href="#use-cases">Use Cases</a>
-          <a href="#contact">Contact</a>
+          <a href="#outcomes">Outcomes</a>
+          <a href="#demo">Try it</a>
+          <a href="#platform">Platform</a>
+          <a href="#why">Why us</a>
+          <a href="#pilot">Pilot</a>
         </nav>
-        <a class="button button-primary" href="#contact">Request a demo</a>
+        <a class="button button-primary" href="#pilot">Become a design partner</a>
       </div>
     </header>
 
-    <main>
+    <main id="top">
+      <!-- 1. Hero: who it's for, the outcome, one consistent example -->
       <section class="hero">
         <div class="container hero-grid">
           <div class="hero-copy">
-            <span class="eyebrow">Decisioning infrastructure for modern credit</span>
-            <h1>Underwriting infrastructure for fast-growing BNPL and fintech lenders.</h1>
+            <span class="eyebrow">For BNPL &amp; embedded-finance lenders</span>
+            <h1>The underwriting layer for lenders that have outgrown spreadsheets.</h1>
             <p>
-              CreditDrishti helps small BNPL operators and digital lenders replace manual,
-              fragmented underwriting with a single decisioning layer built for speed,
-              explainability, and governance. We convert raw application and portfolio data into
-              approval, review, decline, pricing, and audit-ready risk outputs in one operating flow.
+              CreditDrishti turns every application into a decision your team can act on and
+              explain: approve, review or decline, with the reasons and expected loss attached.
+              Fewer manual reviews, the same policy applied every time, and a record of every
+              decision.
             </p>
             <div class="cta-row">
-              <a class="button button-primary" href="#outputs">See the product</a>
-              <a class="button button-secondary" href="#solution">How it works</a>
+              <a class="button button-primary" href="#pilot">Become a design partner</a>
+              <a class="button button-secondary" href="#demo">Try the live demo</a>
             </div>
-            <div class="trust-strip">
-              <span>PD</span>
-              <span>LGD</span>
-              <span>EAD</span>
-              <span>ECL</span>
-            </div>
-            <ul class="mini-stats">
-              <li><strong>Approval</strong><span>Decision-ready underwriting</span></li>
-              <li><strong>Explain</strong><span>Adverse action rationale</span></li>
-              <li><strong>Govern</strong><span>Audit-ready monitoring</span></li>
-            </ul>
+            <p class="tagline">
+              <strong>Drishti</strong> (दृष्टि) means <em>sight</em>: clear sight into every
+              credit decision.
+            </p>
           </div>
 
-          <div class="hero-panel">
+          <div class="hero-panel" aria-label="Example decision">
             <div class="panel-card panel-highlight">
-              <div class="panel-topline">Application outcome</div>
+              <div class="panel-topline">Example decision · APP-0042</div>
               <div class="decision-row">
-                <span class="badge badge-decline">DECLINE</span>
-                <span class="risk-score">PD 0.9695</span>
+                <span class="badge badge-approve">APPROVE</span>
+                <span class="risk-score">Grade B</span>
               </div>
               <div class="metrics-grid">
                 <div>
-                  <label>Risk Grade</label>
-                  <strong>E</strong>
+                  <label>Probability of default</label>
+                  <strong>4.2%</strong>
                 </div>
                 <div>
-                  <label>ECL</label>
-                  <strong>$7.31</strong>
+                  <label>Order amount</label>
+                  <strong>$1,200</strong>
                 </div>
                 <div>
-                  <label>LGD</label>
-                  <strong>0.2300</strong>
+                  <label>Loss if default</label>
+                  <strong>65%</strong>
                 </div>
                 <div>
-                  <label>EAD</label>
-                  <strong>32.76</strong>
+                  <label>Expected loss</label>
+                  <strong>$32.76</strong>
                 </div>
               </div>
             </div>
 
             <div class="panel-card panel-list">
-              <h3>Why this decision was made</h3>
-              <ul>
-                <li>AA-01 — Credit score below target range</li>
-                <li>AA-02 — Debt pressure is too high</li>
-                <li>AA-05 — Delinquency history indicates elevated risk</li>
+              <h3>Why this decision</h3>
+              <ul class="reasons">
+                <li class="pos">No missed payments in the last 2 years</li>
+                <li class="pos">Income verified</li>
+                <li class="neg">Debt-to-income at 35% (policy limit 50%)</li>
               </ul>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="feature-band" id="solution">
+      <!-- 2. Problem -->
+      <section class="feature-band" id="problem">
         <div class="container">
           <div class="section-heading">
-            <span class="eyebrow">The platform</span>
-            <h2>One operating layer for underwriting, pricing, and portfolio control</h2>
+            <span class="eyebrow">The problem</span>
+            <h2>Application volume grows faster than your risk team</h2>
           </div>
 
           <div class="card-grid">
             <article class="info-card">
               <div class="icon">01</div>
-              <h3>Lender operating layer</h3>
+              <h3>Manual review becomes the bottleneck</h3>
               <p>
-                We sit between raw borrower data and credit operations, turning inputs into approval,
-                review, pricing, and loss outputs that lenders can act on immediately.
+                Borderline applications pile up in a queue. Customers wait, checkouts are
+                abandoned, and your best analysts spend their day triaging.
               </p>
-            </article>
-
-            <article class="info-card">
-              <div class="icon">02</div>
-              <h3>Explainability built in</h3>
-              <p>
-                Our workflows surface the key risk drivers behind each decision, making adverse-action
-                reasoning transparent for members, teams, and regulators.
-              </p>
-            </article>
-
-            <article class="info-card">
-              <div class="icon">03</div>
-              <h3>Governance that scales</h3>
-              <p>
-                Model versioning, audit trails, drift monitoring, and review controls are built into the
-                operating flow rather than added as an afterthought.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="feature-band" aria-label="customer value">
-        <div class="container">
-          <div class="section-heading">
-            <span class="eyebrow">Why lenders choose us</span>
-            <h2>Built for the operational pain points lenders actually feel</h2>
-          </div>
-
-          <div class="card-grid">
-            <article class="info-card">
-              <div class="icon">A</div>
-              <h3>Reduce manual review burden</h3>
-              <p>
-                Standardize the workflow for digital lenders and credit unions that want faster,
-                more consistent decisioning without adding operational complexity.
-              </p>
-            </article>
-
-            <article class="info-card">
-              <div class="icon">B</div>
-              <h3>Improve member and borrower experience</h3>
-              <p>
-                Deliver faster decisions, clearer explanations, and more transparent policy
-                enforcement across underwriting, pricing, and portfolio management.
-              </p>
-            </article>
-
-            <article class="info-card">
-              <div class="icon">C</div>
-              <h3>Make governance actionable</h3>
-              <p>
-                Turn model risk and compliance from a checklist into a working operational system
-                with explainability, versioning, and monitoring built in.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="feature-band">
-        <div class="container">
-          <div class="section-heading">
-            <span class="eyebrow">The wedge</span>
-            <h2>Built for the under-served segment of digital lenders that need scale without chaos</h2>
-          </div>
-
-          <div class="card-grid">
-            <article class="info-card">
-              <div class="icon">01</div>
-              <h3>Target customer</h3>
-              <p>Small BNPL and embedded-finance lenders with significant application volume and limited internal risk ops capacity.</p>
             </article>
             <article class="info-card">
               <div class="icon">02</div>
-              <h3>Pain point</h3>
-              <p>Manual review, inconsistent policy execution, weak adverse-action explanations, and fragmented risk tooling.</p>
+              <h3>Policy drifts between reviewers</h3>
+              <p>
+                Rules live in spreadsheets and people's heads. Two reviewers can reach two
+                different answers on the same application.
+              </p>
             </article>
             <article class="info-card">
               <div class="icon">03</div>
-              <h3>Business model</h3>
-              <p>SaaS subscription, implementation setup, and monitoring / governance add-ons for scale-up lenders.</p>
+              <h3>"Why was I declined?" needs a real answer</h3>
+              <p>
+                Customers, partners and auditors all ask. Reconstructing the reason after the
+                fact is slow and error-prone.
+              </p>
             </article>
           </div>
         </div>
       </section>
 
-      <section class="results-band">
+      <!-- 3. Business outcomes (sell the outcome, not the maths) -->
+      <section class="process" id="outcomes">
         <div class="container">
           <div class="section-heading">
-            <span class="eyebrow">Four operating outputs</span>
-            <h2>Everything a lender needs to act, explain, and monitor credit decisions</h2>
+            <span class="eyebrow">What changes for your team</span>
+            <h2>Outcomes your credit, ops and finance teams will notice</h2>
           </div>
 
-          <div class="results-grid">
-            <article class="result-card">
-              <span class="result-tag">01</span>
-              <h3>Underwrite</h3>
-              <p>Approval, review, and decline decisions that follow policy rather than spreadsheet guesswork.</p>
+          <div class="outcome-grid">
+            <article class="outcome">
+              <h3>Faster decisions</h3>
+              <p>
+                Clear-cut applications are approved or declined instantly. Only the genuinely
+                borderline ones reach a human.
+              </p>
+              <span class="outcome-meta">For: operations · customers at checkout</span>
             </article>
-            <article class="result-card">
-              <span class="result-tag">02</span>
-              <h3>Price</h3>
-              <p>Risk-based pricing with PD, LGD, and EAD outputs aligned to the lender’s credit strategy.</p>
+            <article class="outcome">
+              <h3>Consistent underwriting</h3>
+              <p>
+                One written policy, applied the same way to every application, whoever is on shift.
+                Rules live in configuration, not in spreadsheets and email threads.
+              </p>
+              <span class="outcome-meta">For: credit policy</span>
             </article>
-            <article class="result-card">
-              <span class="result-tag">03</span>
-              <h3>Monitor</h3>
-              <p>Portfolio health, risk drift, and policy exceptions surfaced before they become losses.</p>
+            <article class="outcome">
+              <h3>See your risk exposure</h3>
+              <p>
+                Expected loss for every approval and a portfolio view by risk grade, so you know
+                what growth is costing before the losses arrive.
+              </p>
+              <span class="outcome-meta">For: CRO · finance</span>
             </article>
-            <article class="result-card">
-              <span class="result-tag">04</span>
-              <h3>Explain</h3>
-              <p>Adverse action reasoning and governance metadata that make decisions reviewable and defensible.</p>
+            <article class="outcome">
+              <h3>Control losses</h3>
+              <p>
+                Back-test a threshold change on your historical loan tape and see the effect on
+                approval rate and expected loss before you ship it.
+              </p>
+              <span class="outcome-meta">For: risk · growth</span>
+            </article>
+            <article class="outcome">
+              <h3>Governance built in</h3>
+              <p>
+                Every decision comes with its inputs, reasons and model version as a record you
+                keep, ready when a partner bank, investor or auditor asks how you decide.
+              </p>
+              <span class="outcome-meta">For: compliance · partner banks</span>
+            </article>
+            <article class="outcome outcome-cta">
+              <h3>Our pilot goal</h3>
+              <p>
+                Cut manual reviews by <strong>30% or more</strong> on your own historical
+                applications, measured together before you commit.
+              </p>
+              <a class="button button-primary" href="#pilot">Talk to us about a pilot</a>
             </article>
           </div>
         </div>
       </section>
 
-      <section class="outputs" id="outputs">
+      <!-- 4. Interactive demo -->
+      <section class="demo" id="demo">
         <div class="container">
+          <div class="section-heading">
+            <span class="eyebrow">Try it</span>
+            <h2>Move the sliders and watch the decision change</h2>
+          </div>
+
+          <div class="demo-grid">
+            <form class="demo-inputs panel-card" id="demoForm" aria-label="Applicant details">
+              <label>
+                <span>Credit score <output id="scoreOut">680</output></span>
+                <input type="range" name="score" min="500" max="850" step="5" value="680" />
+              </label>
+              <label>
+                <span>Debt-to-income <output id="dtiOut">35%</output></span>
+                <input type="range" name="dti" min="0" max="70" step="1" value="35" />
+              </label>
+              <label>
+                <span>Missed payments (last 2 years) <output id="delqOut">0</output></span>
+                <input type="range" name="delq" min="0" max="5" step="1" value="0" />
+              </label>
+              <label>
+                <span>Order amount <output id="amountOut">$1,200</output></span>
+                <input type="range" name="amount" min="100" max="3000" step="50" value="1200" />
+              </label>
+              <label class="check">
+                <input type="checkbox" name="verified" checked />
+                <span>Income verified</span>
+              </label>
+            </form>
+
+            <div class="demo-result panel-card" aria-live="polite">
+              <div class="panel-topline">Decision</div>
+              <div class="decision-row">
+                <span class="badge badge-approve" id="demoBadge">APPROVE</span>
+                <span class="risk-score" id="demoGrade">Grade B</span>
+              </div>
+              <div class="metrics-grid">
+                <div>
+                  <label>Probability of default</label>
+                  <strong id="demoPd">4.2%</strong>
+                </div>
+                <div>
+                  <label>Expected loss</label>
+                  <strong id="demoEl">$32.76</strong>
+                </div>
+              </div>
+              <h3 class="reasons-title">Why</h3>
+              <ul class="reasons" id="demoReasons"></ul>
+              <p class="fineprint">
+                Illustrative model running in your browser. No data is sent anywhere, and this is
+                not a credit decision.
+              </p>
+            </div>
+          </div>
+
+          <div class="inline-cta">
+            <p>This is a toy model. Want to see it calibrated to <strong>your</strong> applications and policy?</p>
+            <a class="button button-primary" href="#pilot">Run it on your data</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Platform: architecture, API, integrations, deployment -->
+      <section class="process" id="platform">
+        <div class="container">
+          <div class="section-heading">
+            <span class="eyebrow">Platform</span>
+            <h2>How it fits into your stack</h2>
+          </div>
+
+          <ol class="flow" aria-label="Decision flow">
+            <li>
+              <span class="flow-step">1</span>
+              <h3>Your application flow</h3>
+              <p>Checkout, loan origination system or batch file</p>
+            </li>
+            <li>
+              <span class="flow-step">2</span>
+              <h3>Policy rules</h3>
+              <p>Hard limits checked first: minimum score, affordability, exclusions</p>
+            </li>
+            <li>
+              <span class="flow-step">3</span>
+              <h3>Risk scoring</h3>
+              <p>Probability of default, risk grade and expected loss</p>
+            </li>
+            <li>
+              <span class="flow-step">4</span>
+              <h3>Decision package</h3>
+              <p>Decision, reasons and record, back to your system in one response</p>
+            </li>
+          </ol>
+
+          <div class="platform-grid">
+            <div class="code-card panel-card">
+              <div class="code-head">
+                <span>POST /v1/score</span>
+                <span class="muted">request → response</span>
+              </div>
+<pre><code>{
+  "application_id": "APP-0042",
+  "fico_score": 680,
+  "dti_ratio": 0.35,
+  "delinquency_count": 0,
+  "income_verified": 1
+}
+
+→ {
+  "decision_recommendation": "APPROVE",
+  "risk_grade": "B",
+  "pd_estimate": 0.042,
+  "decision_reasons": [ … ],
+  "policy_checks": [ … ],
+  "governance": { "model_version": "…", "record_id": "…" }
+}</code></pre>
+            </div>
+
+            <div class="spec-list">
+              <div>
+                <h3>Integrate</h3>
+                <ul>
+                  <li>REST API with JSON in and out, for single applications or batches</li>
+                  <li>Loan-tape upload (CSV) for back-testing and portfolio runs</li>
+                  <li>Decision packages export as JSON, CSV or PDF</li>
+                </ul>
+              </div>
+              <div>
+                <h3>Deploy</h3>
+                <ul>
+                  <li>Hosted by us, or in your own cloud as a container</li>
+                  <li>Pilots run on anonymised historical data, so no live integration is needed to start</li>
+                </ul>
+              </div>
+              <div>
+                <h3>Configure</h3>
+                <ul>
+                  <li>Your thresholds, policy rules and reason codes, not ours</li>
+                  <li>Model version recorded on every decision, so past decisions can be explained</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Differentiation -->
+      <section class="feature-band" id="why">
+        <div class="container">
+          <div class="section-heading">
+            <span class="eyebrow">Why CreditDrishti</span>
+            <h2>Between spreadsheets and an enterprise suite</h2>
+          </div>
+
+          <div class="compare-wrap">
+            <table class="compare">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Spreadsheets &amp; manual review</th>
+                  <th scope="col">Enterprise decisioning suite</th>
+                  <th scope="col" class="us">CreditDrishti</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Time to first results</th>
+                  <td>Immediate, but doesn't scale</td>
+                  <td>Typically a multi-month implementation</td>
+                  <td class="us">A pilot on your historical data</td>
+                </tr>
+                <tr>
+                  <th scope="row">Reason for every decision</th>
+                  <td>Reconstructed by hand</td>
+                  <td>Usually, once configured</td>
+                  <td class="us">In every response by default</td>
+                </tr>
+                <tr>
+                  <th scope="row">Expected loss per approval</th>
+                  <td>Rarely</td>
+                  <td>Often a separate module</td>
+                  <td class="us">Included</td>
+                </tr>
+                <tr>
+                  <th scope="row">Needs an in-house data-science team</th>
+                  <td>No, but no models either</td>
+                  <td>Often</td>
+                  <td class="us">No</td>
+                </tr>
+                <tr>
+                  <th scope="row">Built for</th>
+                  <td>Very early lenders</td>
+                  <td>Banks and large lenders</td>
+                  <td class="us">BNPL and embedded-finance scale-ups</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. Who it's for -->
+      <section class="feature-band" id="fit">
+        <div class="container fit">
           <div class="section-heading left">
-            <span class="eyebrow">What the lender receives</span>
-            <h2>One structured package instead of a single score</h2>
-          </div>
-
-          <div class="output-grid">
-            <div class="output-card big">
-              <h3>Application output</h3>
-              <div class="json-box" id="outputBox"></div>
-            </div>
-
-            <div class="output-card">
-              <h3>Key business value</h3>
-              <ul>
-                <li>Faster approvals and declines</li>
-                <li>Consistent underwriting policies</li>
-                <li>Audit-ready model governance</li>
-                <li>Fair-lending documentation</li>
-                <li>Portfolio alerts before losses rise</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="use-cases" id="use-cases">
-        <div class="container">
-          <div class="section-heading">
             <span class="eyebrow">Built for</span>
-            <h2>Modern lenders solving real operating problems</h2>
+            <h2>BNPL and embedded-finance lenders at the scale-up stage</h2>
+            <p class="lede">
+              Not a full enterprise credit-risk suite. CreditDrishti is the layer you add when
+              spreadsheets stop working and a risk platform rebuild is still years away.
+            </p>
           </div>
-
-          <div class="use-grid">
-            <article class="use-card">
-              <h3>BNPL and embedded finance</h3>
-              <p>
-                Enable instant consumer lending decisions with strong affordability checks, clear risk
-                outcomes, and explainable adverse action logic.
-              </p>
-            </article>
-            <article class="use-card">
-              <h3>Credit unions</h3>
-              <p>
-                Support member lending, auto loans, HELOCs, and personal credit with transparent,
-                relationship-aware underwriting and governance.
-              </p>
-            </article>
-            <article class="use-card">
-              <h3>Portfolio monitoring</h3>
-              <p>
-                Detect risk drift, expected loss changes, and policy exceptions before they become
-                portfolio problems.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="process">
-        <div class="container">
-          <div class="section-heading">
-            <span class="eyebrow">How it works</span>
-            <h2>From application data to decision-ready action</h2>
-          </div>
-
-          <div class="steps">
-            <div class="step">
-              <span>1</span>
-              <h3>Capture data</h3>
-              <p>Pull in loan applications, affordability signals, and portfolio inputs.</p>
-            </div>
-            <div class="step">
-              <span>2</span>
-              <h3>Score and explain</h3>
-              <p>Generate PD, LGD, EAD, ECL, and the risk drivers behind the decision.</p>
-            </div>
-            <div class="step">
-              <span>3</span>
-              <h3>Govern and monitor</h3>
-              <p>Track versioning, audit trails, and risk alerts in a review-ready workflow.</p>
-            </div>
-          </div>
+          <ul class="fit-list">
+            <li>You handle thousands of applications a month</li>
+            <li>Your risk team is a handful of people</li>
+            <li>Manual review is slowing approvals</li>
+            <li>You need a clear reason for every decline</li>
+          </ul>
         </div>
       </section>
     </main>
 
-    <section class="cta-banner" id="contact">
+    <!-- 8. Design-partner offer + form -->
+    <section class="cta-banner" id="pilot">
       <div class="container cta-banner-inner">
         <div>
-          <span class="eyebrow">Ready to modernize lending?</span>
-          <h3>Bring underwriting, pricing, and governance into one operational workflow.</h3>
+          <span class="eyebrow">Design partner program</span>
+          <h3>We're onboarding a small group of BNPL lenders as design partners.</h3>
+          <p class="pilot-copy">
+            Share an anonymised historical loan tape (no personal data needed). We'll run it
+            through CreditDrishti and show you how many manual reviews could be automated, how
+            consistent past decisions were, and a sample reason pack for your declines.
+          </p>
         </div>
       </div>
       <div class="container">
-        <!-- Demo requests are delivered by Formspree (form xqpqqzob) -->
+        <!-- Requests are delivered by Formspree (form xqpqqzob) -->
         <form
           class="contact-form"
           id="contactForm"
@@ -349,21 +463,36 @@
               <input type="email" name="email" autocomplete="email" required maxlength="200" />
             </label>
           </div>
+          <div class="form-row">
+            <label>
+              <span>Company</span>
+              <input type="text" name="company" autocomplete="organization" maxlength="200" />
+            </label>
+            <label>
+              <span>Applications per month</span>
+              <select name="monthly_applications">
+                <option value="">Select…</option>
+                <option>Under 1,000</option>
+                <option>1,000 – 10,000</option>
+                <option>10,000 – 100,000</option>
+                <option>Over 100,000</option>
+              </select>
+            </label>
+          </div>
           <label>
-            <span>Company</span>
-            <input type="text" name="company" autocomplete="organization" maxlength="200" />
-          </label>
-          <label>
-            <span>What are you looking to solve?</span>
+            <span>What's the biggest underwriting headache right now?</span>
             <textarea name="message" rows="4" required maxlength="4000"></textarea>
           </label>
-          <input type="hidden" name="_subject" value="New demo request — CreditDrishti" />
+          <input type="hidden" name="_subject" value="New design-partner request — CreditDrishti" />
           <!-- Honeypot: hidden from people; Formspree drops submissions that fill it -->
           <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
           <div class="form-actions">
-            <button class="button button-primary" type="submit">Book a demo</button>
+            <button class="button button-primary" type="submit">Apply as a design partner</button>
             <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
           </div>
+          <p class="fineprint">
+            We use your details only to reply to you. See our <a href="privacy.html">privacy policy</a>.
+          </p>
         </form>
       </div>
     </section>
@@ -372,11 +501,15 @@
       <div class="container footer-row">
         <div>
           <h3>CreditDrishti</h3>
-          <p>Modern credit risk infrastructure for lenders that need speed, transparency, and control.</p>
+          <p>
+            Clear sight into every credit decision. Now onboarding our first design partners.
+          </p>
         </div>
-        <a class="button button-secondary" href="#contact">
-          Contact us
-        </a>
+        <nav class="footer-links">
+          <a href="#pilot">Contact</a>
+          <a href="privacy.html">Privacy</a>
+          <span>© 2026 CreditDrishti</span>
+        </nav>
       </div>
     </footer>
 
