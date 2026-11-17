@@ -54,7 +54,7 @@ Please keep it that way. Every claim on the site should be something the product
 | `dashboard-screenshot.png` | Screenshot of the product dashboard |
 | `assets-src/` | Sources and build script for the generated files |
 | `robots.txt`, `sitemap.xml` | Search-engine files |
-| `CNAME`, `.nojekyll` | Custom domain and GitHub Pages settings |
+| `CNAME`, `.nojekyll` | GitHub Pages settings |
 
 ## Working on the site
 
@@ -66,6 +66,8 @@ python3 -m http.server 8000
 ```
 
 **Publish:** commit and push to `main`. GitHub Pages redeploys in about a minute.
+
+Everything in this repository is public. Never commit API keys, secrets or product code.
 
 **Rebuild the PDF and preview image** after editing anything in `assets-src/`:
 
@@ -86,21 +88,6 @@ together from fresh engine output:
 They appear in the hero tabs, the sample decision package, the API example (`index.html`), the
 calculator defaults (`index.html`, `app.js`), `assets-src/sample-report.html` and
 `assets-src/og-card.html`. Grades use the product's AAA–D scale.
-
-## Contact form
-
-The backtest request form posts to [Formspree](https://formspree.io), which emails each
-submission. The form's endpoint is the `action` attribute in `index.html`. Restrict the form to
-`creditdrishti.com` in Formspree's settings so it can't be used from other sites.
-
-## Hosting and domain
-
-- **Hosting:** GitHub Pages from `main`, folder `/` (root).
-- **Domain:** `creditdrishti.com`, set in `CNAME`. DNS is at GoDaddy: four A records to GitHub
-  Pages and a `www` CNAME to `purirajan.github.io`. HTTPS is enforced.
-- **Live features:** GitHub Pages serves static files only. Anything that needs a server, such
-  as a live scoring demo, must be hosted separately and called from `app.js`. Never put API keys
-  or secrets in this repository; everything here is public.
 
 ## License
 
