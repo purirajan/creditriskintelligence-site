@@ -20,7 +20,7 @@ Public marketing site, served by GitHub Pages. Plain HTML/CSS/JS, so there's no 
 | `.nojekyll` | Tells GitHub Pages to serve files as-is |
 
 All example numbers on the site are illustrative and must stay internally consistent:
-approve example PD 4.2% × LGD 65% × $1,200 = $32.76; decline example PD 31% × 65% × $900 = $181.35.
+approve example (real engine output) PD 3.49% × LGD 65% × $1,200 = $27.23, grade BBB; decline example PD 43.6% × 65% × $900 = $255.05, grade D. Calculator defaults match the approve example. Grades use the product scale AAA–D.
 
 ## Local preview
 

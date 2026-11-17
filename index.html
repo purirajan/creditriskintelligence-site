@@ -95,18 +95,18 @@
                 <div class="panel-topline">Order BNPL-APP-0042 · $1,200 pay-in-4</div>
                 <div class="decision-row">
                   <span class="badge badge-approve">APPROVE</span>
-                  <span class="risk-score">Grade B</span>
+                  <span class="risk-score">Grade BBB</span>
                 </div>
                 <div class="metrics-grid">
-                  <div><label>12-month PD</label><strong>4.2%</strong></div>
+                  <div><label>12-month PD</label><strong>3.49%</strong></div>
                   <div><label>Exposure</label><strong>$1,200</strong></div>
                   <div><label>Loss if default</label><strong>65%</strong></div>
-                  <div><label>Expected loss</label><strong>$32.76</strong></div>
+                  <div><label>Expected loss</label><strong>$27.23</strong></div>
                 </div>
                 <ul class="reasons">
-                  <li class="pos">Credit score 712 (policy floor 620)</li>
+                  <li class="pos">Credit score 712 lowers risk (policy floor 620)</li>
                   <li class="pos">No missed payments · income verified</li>
-                  <li class="neg">Debt-to-income 35% (policy limit 45%)</li>
+                  <li class="neg">18 months of credit history slightly raises risk</li>
                 </ul>
               </div>
 
@@ -114,22 +114,22 @@
                 <div class="panel-topline">Order BNPL-APP-0117 · $900 pay-in-4</div>
                 <div class="decision-row">
                   <span class="badge badge-decline">DECLINE</span>
-                  <span class="risk-score">Grade E</span>
+                  <span class="risk-score">Grade D</span>
                 </div>
                 <div class="metrics-grid">
-                  <div><label>12-month PD</label><strong>31.0%</strong></div>
+                  <div><label>12-month PD</label><strong>43.6%</strong></div>
                   <div><label>Exposure</label><strong>$900</strong></div>
                   <div><label>Loss if default</label><strong>65%</strong></div>
-                  <div><label>Expected loss</label><strong>$181.35</strong></div>
+                  <div><label>Expected loss</label><strong>$255.05</strong></div>
                 </div>
                 <ul class="reasons">
-                  <li class="neg">AA-01 · Credit score 598, below policy floor of 620</li>
-                  <li class="neg">AA-02 · Debt-to-income 52%, above policy limit of 45%</li>
-                  <li class="neg">AA-04 · 2 missed payments in the last 24 months</li>
+                  <li class="neg">AA-01 · Credit score 605, below policy floor of 620</li>
+                  <li class="neg">AA-04 · 1 missed payment (policy allows none)</li>
+                  <li class="neg">AA-02 · Debt-to-income 48%, above policy limit of 45%</li>
                 </ul>
               </div>
 
-              <p class="fineprint">Illustrative examples with synthetic data.</p>
+              <p class="fineprint">Real output from the CreditDrishti scoring engine for synthetic applicants.</p>
             </div>
           </div>
         </div>
@@ -175,29 +175,33 @@
             <div class="code-card panel-card">
               <div class="code-head">
                 <span>POST /v1/score</span>
-                <span class="muted">illustrative values</span>
+                <span class="muted">real response · synthetic applicant</span>
               </div>
 <pre><code>{
   "application_id": "BNPL-APP-0042",
   "fico_score": 712,
   "dti_ratio": 0.35,
   "utilization_rate": 0.31,
+  "months_on_book": 18,
   "delinquency_count": 0,
   "income_verified": 1
 }
 
 → 200 OK
 {
+  "pd_estimate": 0.034914,
+  "risk_grade": "BBB",
   "decision_recommendation": "APPROVE",
-  "risk_grade": "B",
-  "pd_estimate": 0.042,
-  "policy_checks": ["credit_score_ok", "dti_ok", …],
-  "decision_reasons": [ … ],
+  "decision_reasons": [],
+  "policy_checks": ["credit_score_ok", "dti_ok",
+    "utilization_ok", "delinquency_ok",
+    "income_verified", "pd_within_approval_threshold"],
   "governance": {
-    "model_id": "PD-BNPL-001",
-    "model_version": "1.2.0",
-    "record_id": "…",
-    "timestamp": "…"
+    "model_id": "PD-CONSUMER-001",
+    "model_version": "2.0.0",
+    "record_id": "record-20261116181419",
+    "timestamp": "2026-11-16T18:14:19Z",
+    "environment": "prototype"
   }
 }</code></pre>
             </div>
@@ -250,7 +254,7 @@
               </div>
               <div class="report-decision">
                 <span class="badge badge-approve">APPROVE</span>
-                <span class="risk-score">Grade B</span>
+                <span class="risk-score">Grade BBB</span>
               </div>
             </header>
 
@@ -258,10 +262,10 @@
               <section>
                 <h4>Risk numbers</h4>
                 <table class="kv">
-                  <tr><th>Probability of default (12-month)</th><td>4.2%</td></tr>
+                  <tr><th>Probability of default (12-month)</th><td>3.49%</td></tr>
                   <tr><th>Loss if default (LGD)</th><td>65%</td></tr>
                   <tr><th>Exposure at default (EAD)</th><td>$1,200.00</td></tr>
-                  <tr class="total"><th>Expected credit loss (12-month)</th><td>$32.76</td></tr>
+                  <tr class="total"><th>Expected credit loss (12-month)</th><td>$27.23</td></tr>
                 </table>
               </section>
 
@@ -273,32 +277,33 @@
                   <tr><th>Revolving utilization (≤ 70%)</th><td><span class="pass">Pass</span> 31%</td></tr>
                   <tr><th>Missed payments (0 allowed)</th><td><span class="pass">Pass</span> 0</td></tr>
                   <tr><th>Income verification (required)</th><td><span class="pass">Pass</span> Verified</td></tr>
+                  <tr><th>PD below approval threshold (&lt; 10%)</th><td><span class="pass">Pass</span> 3.49%</td></tr>
                 </table>
               </section>
 
               <section>
-                <h4>Key factors</h4>
+                <h4>What moved the risk</h4>
                 <ul class="reasons">
-                  <li class="pos">Credit score 712, above the 620 floor</li>
-                  <li class="pos">No missed payments in the last 24 months</li>
-                  <li class="pos">Income verified</li>
-                  <li class="neg">Debt-to-income 35%, inside the 45% limit</li>
+                  <li class="pos">Credit score 712 lowers risk the most</li>
+                  <li class="pos">No missed payments, income verified</li>
+                  <li class="neg">18 months of credit history slightly raises risk</li>
+                  <li class="neg">Utilization 31%, close to neutral</li>
                 </ul>
               </section>
 
               <section>
                 <h4>Decision record</h4>
                 <table class="kv mono">
-                  <tr><th>Model</th><td>PD-BNPL-001 v1.2.0</td></tr>
-                  <tr><th>Record ID</th><td>decision-20261116-BNPL-APP-0042</td></tr>
+                  <tr><th>Model</th><td>PD-BNPL-001 v2.0.0</td></tr>
+                  <tr><th>Record ID</th><td>decision-20261116181419-BNPL-APP-0042</td></tr>
                   <tr><th>Timestamp</th><td>2026-11-16 18:14:19 UTC</td></tr>
-                  <tr><th>Policy</th><td>bnpl-standard</td></tr>
+                  <tr><th>Thresholds</th><td>BNPL policy, recorded in full</td></tr>
                 </table>
               </section>
             </div>
 
             <footer class="report-foot">
-              <p>Illustrative example with synthetic data, in the format the product returns. A declined application carries coded adverse-action reasons (for example AA-01 to AA-05) in the same structure.</p>
+              <p>Generated by the CreditDrishti scoring engine for a synthetic applicant. A declined application carries coded adverse-action reasons (AA-01 to AA-06) in the same structure. Grades run AAA to D.</p>
               <a class="button button-secondary" href="sample-decision-package.pdf" download>Download sample (PDF)</a>
             </footer>
           </article>
@@ -323,8 +328,8 @@
           <div class="demo-grid">
             <form class="demo-inputs panel-card" id="elForm" aria-label="Expected loss calculator">
               <label>
-                <span>Probability of default (12-month) <output id="pdOut">4.2%</output></span>
-                <input type="range" name="pd" min="0.5" max="40" step="0.1" value="4.2" />
+                <span>Probability of default (12-month) <output id="pdOut">3.49%</output></span>
+                <input type="range" name="pd" min="0.5" max="40" step="any" value="3.4914" />
               </label>
               <label>
                 <span>Loss if default <output id="lgdOut">65%</output></span>
@@ -342,11 +347,11 @@
 
             <div class="demo-result panel-card" aria-live="polite">
               <div class="panel-topline">Expected credit loss</div>
-              <div class="el-big" id="elValue">$32.76</div>
-              <p class="el-sub"><span id="elPct">2.73%</span> of the order is expected to be lost to credit risk.</p>
+              <div class="el-big" id="elValue">$27.23</div>
+              <p class="el-sub"><span id="elPct">2.27%</span> of the order is expected to be lost to credit risk.</p>
               <div class="metrics-grid">
                 <div><label>Revenue on this order</label><strong id="revValue">$48.00</strong></div>
-                <div><label>After expected loss</label><strong id="netValue">$15.24</strong></div>
+                <div><label>After expected loss</label><strong id="netValue">$20.77</strong></div>
               </div>
               <p class="el-verdict" id="elVerdict"></p>
               <p class="fineprint">ECL = PD × LGD × EAD. A simple teaching calculator, before funding, servicing and other costs.</p>
@@ -361,6 +366,18 @@
           <div class="section-heading">
             <span class="eyebrow">Why CreditDrishti</span>
             <h2>What you get compared with the alternatives</h2>
+          </div>
+
+          <div class="build-note">
+            <h3>Why not build it yourself?</h3>
+            <p>
+              You can. Building in-house means PD, LGD and exposure models, a rules engine,
+              reason codes that map to adverse-action notices, and a record of every decision,
+              then keeping all of it in step every time your policy changes. Most BNPL risk teams
+              are a handful of people already running the review queue. CreditDrishti gives you
+              that structure from the start, so your team's time goes into the credit policy, not
+              the plumbing around it.
+            </p>
           </div>
 
           <div class="compare-wrap">
@@ -431,7 +448,44 @@
         </div>
       </section>
 
-      <!-- 6. Security and data -->
+      <!-- 6. Buyer's checklist: straight answers, including what isn't built yet -->
+      <section class="process" id="checklist">
+        <div class="container">
+          <div class="section-heading">
+            <span class="eyebrow">Buyer's checklist</span>
+            <h2>The questions to ask any decisioning vendor, answered</h2>
+          </div>
+
+          <dl class="qa">
+            <div>
+              <dt>Does it integrate with our systems?</dt>
+              <dd>Through a REST API (single or batch) and CSV loan-tape upload, with exports as JSON, CSV or PDF. There are no pre-built connectors to loan origination systems or credit bureaus yet; you send the fields you already collect.</dd>
+            </div>
+            <div>
+              <dt>How fast is a decision?</dt>
+              <dd>Under 1 millisecond per decision in our local tests. Production latency on your infrastructure has not been benchmarked yet; we would measure it with you.</dd>
+            </div>
+            <div>
+              <dt>How are policy changes controlled?</dt>
+              <dd>Thresholds are set per product and can be overridden per request, and every decision records the exact thresholds it used. A review-and-approve workflow for policy changes is not built yet.</dd>
+            </div>
+            <div>
+              <dt>Is there an audit record for every decision?</dt>
+              <dd>Yes. Each decision returns its inputs, policy checks, reasons, thresholds, model ID and version, record ID and timestamp. Today you store that record; hosted storage is on the roadmap.</dd>
+            </div>
+            <div>
+              <dt>Can our credit team own it day to day?</dt>
+              <dd>Your team sets the thresholds and reason codes without retraining a model. There is no self-serve policy editor yet, so changes are made with us.</dd>
+            </div>
+            <div>
+              <dt>How good are the models?</dt>
+              <dd>Today's scorecard uses expert-set assumptions and is not yet calibrated to lender data. A backtest calibrates and measures it on your own history before anything goes live.</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <!-- 7. Security and data -->
       <section class="feature-band" id="security">
         <div class="container">
           <div class="section-heading">
@@ -467,7 +521,7 @@
       </section>
     </main>
 
-    <!-- 7. Pilot + who it's for + form -->
+    <!-- 8. Pilot + who it's for + form -->
     <section class="cta-banner" id="pilot">
       <div class="container pilot-grid" id="who">
         <div>

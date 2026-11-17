@@ -27,7 +27,7 @@ tabs.forEach((tab, i) => {
 
 // ---------------------------------------------------------------------------
 // Expected-loss calculator: ECL = PD × LGD × EAD, compared with order revenue.
-// Pure arithmetic, no model. Defaults match the hero example ($32.76).
+// Pure arithmetic, no model. Defaults match the hero example ($27.23).
 // ---------------------------------------------------------------------------
 const elForm = document.getElementById('elForm');
 
@@ -46,7 +46,7 @@ if (elForm) {
     const net = revenue - ecl;
     const breakEvenFee = pd * lgd * 100;
 
-    $('pdOut').textContent = `${Number(f.pd.value).toFixed(1)}%`;
+    $('pdOut').textContent = `${Number(f.pd.value).toFixed(2)}%`;
     $('lgdOut').textContent = `${f.lgd.value}%`;
     $('eadOut').textContent = money(ead).replace('.00', '');
     $('feeOut').textContent = `${Number(f.fee.value).toFixed(1)}%`;
