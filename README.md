@@ -9,10 +9,18 @@ Public marketing site, served by GitHub Pages. Plain HTML/CSS/JS, so there's no 
 
 | File | Purpose |
 |---|---|
-| `index.html` | Page content |
-| `styles.css` | Styles |
-| `app.js` | Sample output panel + demo-request form handler |
+| `index.html` | Home page (hero, how it works, sample decision package, expected-loss calculator, comparison, security, backtest form) |
+| `privacy.html`, `terms.html` | Privacy policy and terms of use |
+| `styles.css` | Styles for all pages |
+| `app.js` | Hero example tabs, expected-loss calculator, Formspree form handler |
+| `sample-decision-package.pdf` | Downloadable sample decision package (synthetic data) |
+| `og-image.png` | 1200×630 link-preview image |
+| `robots.txt`, `sitemap.xml` | Search-engine files |
+| `CNAME` | Custom domain (creditdrishti.com) |
 | `.nojekyll` | Tells GitHub Pages to serve files as-is |
+
+All example numbers on the site are illustrative and must stay internally consistent:
+approve example PD 4.2% × LGD 65% × $1,200 = $32.76; decline example PD 31% × 65% × $900 = $181.35.
 
 ## Local preview
 

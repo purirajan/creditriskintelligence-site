@@ -3,26 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CreditDrishti — Underwriting for BNPL lenders</title>
+    <title>CreditDrishti — Credit decisioning and risk infrastructure for US BNPL lenders</title>
     <meta
       name="description"
-      content="The underwriting layer for BNPL and embedded-finance lenders that have outgrown spreadsheets. Approve, review or decline every application with the reasons attached."
+      content="Credit decisioning and risk infrastructure for US BNPL and embedded-finance lenders. Every decision comes with the expected loss and the reason attached."
     />
     <link rel="canonical" href="https://creditdrishti.com/" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://creditdrishti.com/" />
     <meta property="og:site_name" content="CreditDrishti" />
-    <meta property="og:title" content="CreditDrishti — Underwriting for BNPL lenders" />
+    <meta property="og:title" content="Every credit decision, with the expected loss and the reason attached." />
     <meta
       property="og:description"
-      content="The underwriting layer for lenders that have outgrown spreadsheets. Fewer manual reviews, consistent policy, and a reason for every decision."
+      content="Credit decisioning and risk infrastructure for US BNPL and embedded-finance lenders."
     />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content="https://creditdrishti.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#07131f" />
     <link
       rel="icon"
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2338bdf8'/%3E%3Ctext x='32' y='42' font-family='Arial,sans-serif' font-size='28' font-weight='800' text-anchor='middle' fill='%23021018'%3ECD%3C/text%3E%3C/svg%3E"
     />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "CreditDrishti",
+        "url": "https://creditdrishti.com/",
+        "description": "Credit decisioning and risk infrastructure for US BNPL and embedded-finance lenders."
+      }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -39,32 +51,32 @@
           <span>CreditDrishti</span>
         </a>
         <nav class="menu">
-          <a href="#outcomes">Outcomes</a>
-          <a href="#demo">Try it</a>
-          <a href="#platform">Platform</a>
-          <a href="#why">Why us</a>
-          <a href="#pilot">Pilot</a>
+          <a href="#how">How it works</a>
+          <a href="#product">Product</a>
+          <a href="#expected-loss">Expected loss</a>
+          <a href="#security">Security</a>
+          <a href="#who">Who it's for</a>
         </nav>
-        <a class="button button-primary" href="#pilot">Become a design partner</a>
+        <a class="button button-primary" href="#pilot">Start a backtest</a>
       </div>
     </header>
 
     <main id="top">
-      <!-- 1. Hero: who it's for, the outcome, one consistent example -->
+      <!-- 1. Hero -->
       <section class="hero">
         <div class="container hero-grid">
           <div class="hero-copy">
-            <span class="eyebrow">For BNPL &amp; embedded-finance lenders</span>
-            <h1>The underwriting layer for lenders that have outgrown spreadsheets.</h1>
+            <span class="eyebrow">Credit decisioning and risk infrastructure · US BNPL lenders</span>
+            <h1>Every credit decision, with the expected loss and the reason attached.</h1>
             <p>
-              CreditDrishti turns every application into a decision your team can act on and
-              explain: approve, review or decline, with the reasons and expected loss attached.
-              Fewer manual reviews, the same policy applied every time, and a record of every
-              decision.
+              Most tools hand you a score. CreditDrishti returns one structured package instead:
+              approve, review or decline, the probability of default, the expected loss in dollars,
+              and plain-language reason codes. One API call, and every decision comes back as a
+              record you keep.
             </p>
             <div class="cta-row">
-              <a class="button button-primary" href="#pilot">Become a design partner</a>
-              <a class="button button-secondary" href="#demo">Try the live demo</a>
+              <a class="button button-primary" href="#pilot">Backtest your last 6 months of orders</a>
+              <a class="button button-secondary" href="#product">See a sample decision package</a>
             </div>
             <p class="tagline">
               <strong>Drishti</strong> (दृष्टि) means <em>sight</em>: clear sight into every
@@ -72,259 +84,121 @@
             </p>
           </div>
 
-          <div class="hero-panel" aria-label="Example decision">
+          <div class="hero-panel">
             <div class="panel-card panel-highlight">
-              <div class="panel-topline">Example decision · APP-0042</div>
-              <div class="decision-row">
-                <span class="badge badge-approve">APPROVE</span>
-                <span class="risk-score">Grade B</span>
+              <div class="tabs" role="tablist" aria-label="Example decisions">
+                <button role="tab" id="tab-approve" aria-controls="ex-approve" aria-selected="true">Approve</button>
+                <button role="tab" id="tab-decline" aria-controls="ex-decline" aria-selected="false" tabindex="-1">Decline</button>
               </div>
-              <div class="metrics-grid">
-                <div>
-                  <label>Probability of default</label>
-                  <strong>4.2%</strong>
+
+              <div role="tabpanel" id="ex-approve" aria-labelledby="tab-approve">
+                <div class="panel-topline">Order BNPL-APP-0042 · $1,200 pay-in-4</div>
+                <div class="decision-row">
+                  <span class="badge badge-approve">APPROVE</span>
+                  <span class="risk-score">Grade B</span>
                 </div>
-                <div>
-                  <label>Order amount</label>
-                  <strong>$1,200</strong>
+                <div class="metrics-grid">
+                  <div><label>12-month PD</label><strong>4.2%</strong></div>
+                  <div><label>Exposure</label><strong>$1,200</strong></div>
+                  <div><label>Loss if default</label><strong>65%</strong></div>
+                  <div><label>Expected loss</label><strong>$32.76</strong></div>
                 </div>
-                <div>
-                  <label>Loss if default</label>
-                  <strong>65%</strong>
-                </div>
-                <div>
-                  <label>Expected loss</label>
-                  <strong>$32.76</strong>
-                </div>
+                <ul class="reasons">
+                  <li class="pos">Credit score 712 (policy floor 620)</li>
+                  <li class="pos">No missed payments · income verified</li>
+                  <li class="neg">Debt-to-income 35% (policy limit 45%)</li>
+                </ul>
               </div>
-            </div>
 
-            <div class="panel-card panel-list">
-              <h3>Why this decision</h3>
-              <ul class="reasons">
-                <li class="pos">No missed payments in the last 2 years</li>
-                <li class="pos">Income verified</li>
-                <li class="neg">Debt-to-income at 35% (policy limit 50%)</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 2. Problem -->
-      <section class="feature-band" id="problem">
-        <div class="container">
-          <div class="section-heading">
-            <span class="eyebrow">The problem</span>
-            <h2>Application volume grows faster than your risk team</h2>
-          </div>
-
-          <div class="card-grid">
-            <article class="info-card">
-              <div class="icon">01</div>
-              <h3>Manual review becomes the bottleneck</h3>
-              <p>
-                Borderline applications pile up in a queue. Customers wait, checkouts are
-                abandoned, and your best analysts spend their day triaging.
-              </p>
-            </article>
-            <article class="info-card">
-              <div class="icon">02</div>
-              <h3>Policy drifts between reviewers</h3>
-              <p>
-                Rules live in spreadsheets and people's heads. Two reviewers can reach two
-                different answers on the same application.
-              </p>
-            </article>
-            <article class="info-card">
-              <div class="icon">03</div>
-              <h3>"Why was I declined?" needs a real answer</h3>
-              <p>
-                Customers, partners and auditors all ask. Reconstructing the reason after the
-                fact is slow and error-prone.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- 3. Business outcomes (sell the outcome, not the maths) -->
-      <section class="process" id="outcomes">
-        <div class="container">
-          <div class="section-heading">
-            <span class="eyebrow">What changes for your team</span>
-            <h2>Outcomes your credit, ops and finance teams will notice</h2>
-          </div>
-
-          <div class="outcome-grid">
-            <article class="outcome">
-              <h3>Faster decisions</h3>
-              <p>
-                Clear-cut applications are approved or declined instantly. Only the genuinely
-                borderline ones reach a human.
-              </p>
-              <span class="outcome-meta">For: operations · customers at checkout</span>
-            </article>
-            <article class="outcome">
-              <h3>Consistent underwriting</h3>
-              <p>
-                One written policy, applied the same way to every application, whoever is on shift.
-                Rules live in configuration, not in spreadsheets and email threads.
-              </p>
-              <span class="outcome-meta">For: credit policy</span>
-            </article>
-            <article class="outcome">
-              <h3>See your risk exposure</h3>
-              <p>
-                Expected loss for every approval and a portfolio view by risk grade, so you know
-                what growth is costing before the losses arrive.
-              </p>
-              <span class="outcome-meta">For: CRO · finance</span>
-            </article>
-            <article class="outcome">
-              <h3>Control losses</h3>
-              <p>
-                Back-test a threshold change on your historical loan tape and see the effect on
-                approval rate and expected loss before you ship it.
-              </p>
-              <span class="outcome-meta">For: risk · growth</span>
-            </article>
-            <article class="outcome">
-              <h3>Governance built in</h3>
-              <p>
-                Every decision comes with its inputs, reasons and model version as a record you
-                keep, ready when a partner bank, investor or auditor asks how you decide.
-              </p>
-              <span class="outcome-meta">For: compliance · partner banks</span>
-            </article>
-            <article class="outcome outcome-cta">
-              <h3>Our pilot goal</h3>
-              <p>
-                Cut manual reviews by <strong>30% or more</strong> on your own historical
-                applications, measured together before you commit.
-              </p>
-              <a class="button button-primary" href="#pilot">Talk to us about a pilot</a>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- 4. Interactive demo -->
-      <section class="demo" id="demo">
-        <div class="container">
-          <div class="section-heading">
-            <span class="eyebrow">Try it</span>
-            <h2>Move the sliders and watch the decision change</h2>
-          </div>
-
-          <div class="demo-grid">
-            <form class="demo-inputs panel-card" id="demoForm" aria-label="Applicant details">
-              <label>
-                <span>Credit score <output id="scoreOut">680</output></span>
-                <input type="range" name="score" min="500" max="850" step="5" value="680" />
-              </label>
-              <label>
-                <span>Debt-to-income <output id="dtiOut">35%</output></span>
-                <input type="range" name="dti" min="0" max="70" step="1" value="35" />
-              </label>
-              <label>
-                <span>Missed payments (last 2 years) <output id="delqOut">0</output></span>
-                <input type="range" name="delq" min="0" max="5" step="1" value="0" />
-              </label>
-              <label>
-                <span>Order amount <output id="amountOut">$1,200</output></span>
-                <input type="range" name="amount" min="100" max="3000" step="50" value="1200" />
-              </label>
-              <label class="check">
-                <input type="checkbox" name="verified" checked />
-                <span>Income verified</span>
-              </label>
-            </form>
-
-            <div class="demo-result panel-card" aria-live="polite">
-              <div class="panel-topline">Decision</div>
-              <div class="decision-row">
-                <span class="badge badge-approve" id="demoBadge">APPROVE</span>
-                <span class="risk-score" id="demoGrade">Grade B</span>
-              </div>
-              <div class="metrics-grid">
-                <div>
-                  <label>Probability of default</label>
-                  <strong id="demoPd">4.2%</strong>
+              <div role="tabpanel" id="ex-decline" aria-labelledby="tab-decline" hidden>
+                <div class="panel-topline">Order BNPL-APP-0117 · $900 pay-in-4</div>
+                <div class="decision-row">
+                  <span class="badge badge-decline">DECLINE</span>
+                  <span class="risk-score">Grade E</span>
                 </div>
-                <div>
-                  <label>Expected loss</label>
-                  <strong id="demoEl">$32.76</strong>
+                <div class="metrics-grid">
+                  <div><label>12-month PD</label><strong>31.0%</strong></div>
+                  <div><label>Exposure</label><strong>$900</strong></div>
+                  <div><label>Loss if default</label><strong>65%</strong></div>
+                  <div><label>Expected loss</label><strong>$181.35</strong></div>
                 </div>
+                <ul class="reasons">
+                  <li class="neg">AA-01 · Credit score 598, below policy floor of 620</li>
+                  <li class="neg">AA-02 · Debt-to-income 52%, above policy limit of 45%</li>
+                  <li class="neg">AA-04 · 2 missed payments in the last 24 months</li>
+                </ul>
               </div>
-              <h3 class="reasons-title">Why</h3>
-              <ul class="reasons" id="demoReasons"></ul>
-              <p class="fineprint">
-                Illustrative model running in your browser. No data is sent anywhere, and this is
-                not a credit decision.
-              </p>
+
+              <p class="fineprint">Illustrative examples with synthetic data.</p>
             </div>
           </div>
-
-          <div class="inline-cta">
-            <p>This is a toy model. Want to see it calibrated to <strong>your</strong> applications and policy?</p>
-            <a class="button button-primary" href="#pilot">Run it on your data</a>
-          </div>
         </div>
       </section>
 
-      <!-- 5. Platform: architecture, API, integrations, deployment -->
-      <section class="process" id="platform">
+      <!-- 2. How it works -->
+      <section class="process" id="how">
         <div class="container">
           <div class="section-heading">
-            <span class="eyebrow">Platform</span>
-            <h2>How it fits into your stack</h2>
+            <span class="eyebrow">How it works</span>
+            <h2>Application data in, decision package out</h2>
           </div>
 
           <ol class="flow" aria-label="Decision flow">
             <li>
               <span class="flow-step">1</span>
-              <h3>Your application flow</h3>
-              <p>Checkout, loan origination system or batch file</p>
+              <h3>Application data</h3>
+              <p>From your checkout or origination system, by API or batch file</p>
             </li>
             <li>
               <span class="flow-step">2</span>
               <h3>Policy rules</h3>
-              <p>Hard limits checked first: minimum score, affordability, exclusions</p>
+              <p>Your hard limits first: credit score floor, debt-to-income, missed payments, income verification</p>
             </li>
             <li>
               <span class="flow-step">3</span>
               <h3>Risk scoring</h3>
-              <p>Probability of default, risk grade and expected loss</p>
+              <p>12-month probability of default, loss if default, exposure and expected loss</p>
             </li>
             <li>
               <span class="flow-step">4</span>
               <h3>Decision package</h3>
-              <p>Decision, reasons and record, back to your system in one response</p>
+              <p>Approve, review or decline, reason codes and a decision record, in one response</p>
             </li>
           </ol>
+          <p class="flow-loop">
+            <span aria-hidden="true">↺</span> Decisions and repayment outcomes feed portfolio
+            monitoring: approval and review rates by risk grade, and alerts when a segment drifts
+            from expected loss.
+          </p>
 
           <div class="platform-grid">
             <div class="code-card panel-card">
               <div class="code-head">
                 <span>POST /v1/score</span>
-                <span class="muted">request → response</span>
+                <span class="muted">illustrative values</span>
               </div>
 <pre><code>{
-  "application_id": "APP-0042",
-  "fico_score": 680,
+  "application_id": "BNPL-APP-0042",
+  "fico_score": 712,
   "dti_ratio": 0.35,
+  "utilization_rate": 0.31,
   "delinquency_count": 0,
   "income_verified": 1
 }
 
-→ {
+→ 200 OK
+{
   "decision_recommendation": "APPROVE",
   "risk_grade": "B",
   "pd_estimate": 0.042,
+  "policy_checks": ["credit_score_ok", "dti_ok", …],
   "decision_reasons": [ … ],
-  "policy_checks": [ … ],
-  "governance": { "model_version": "…", "record_id": "…" }
+  "governance": {
+    "model_id": "PD-BNPL-001",
+    "model_version": "1.2.0",
+    "record_id": "…",
+    "timestamp": "…"
+  }
 }</code></pre>
             </div>
 
@@ -333,22 +207,22 @@
                 <h3>Integrate</h3>
                 <ul>
                   <li>REST API with JSON in and out, for single applications or batches</li>
-                  <li>Loan-tape upload (CSV) for back-testing and portfolio runs</li>
+                  <li>CSV loan-tape upload for backtests and portfolio runs</li>
                   <li>Decision packages export as JSON, CSV or PDF</li>
-                </ul>
-              </div>
-              <div>
-                <h3>Deploy</h3>
-                <ul>
-                  <li>Hosted by us, or in your own cloud as a container</li>
-                  <li>Pilots run on anonymised historical data, so no live integration is needed to start</li>
                 </ul>
               </div>
               <div>
                 <h3>Configure</h3>
                 <ul>
                   <li>Your thresholds, policy rules and reason codes, not ours</li>
-                  <li>Model version recorded on every decision, so past decisions can be explained</li>
+                  <li>Model ID and version recorded on every decision</li>
+                </ul>
+              </div>
+              <div>
+                <h3>Deploy</h3>
+                <ul>
+                  <li>Hosted by us, or in your own cloud as a container</li>
+                  <li>A backtest needs no live integration at all</li>
                 </ul>
               </div>
             </div>
@@ -356,12 +230,137 @@
         </div>
       </section>
 
-      <!-- 6. Differentiation -->
-      <section class="feature-band" id="why">
+      <!-- 3. Product: the decision package -->
+      <section class="feature-band" id="product">
+        <div class="container">
+          <div class="section-heading">
+            <span class="eyebrow">The product</span>
+            <h2>One structured package instead of a single score</h2>
+            <p class="lede center">
+              This is what comes back for every application. Your underwriters, your compliance
+              team and your partner bank all read the same record.
+            </p>
+          </div>
+
+          <article class="report panel-card" aria-label="Sample decision package">
+            <header class="report-head">
+              <div>
+                <span class="report-kicker">Decision package · v1.0</span>
+                <h3>BNPL-APP-0042 · $1,200 pay-in-4</h3>
+              </div>
+              <div class="report-decision">
+                <span class="badge badge-approve">APPROVE</span>
+                <span class="risk-score">Grade B</span>
+              </div>
+            </header>
+
+            <div class="report-grid">
+              <section>
+                <h4>Risk numbers</h4>
+                <table class="kv">
+                  <tr><th>Probability of default (12-month)</th><td>4.2%</td></tr>
+                  <tr><th>Loss if default (LGD)</th><td>65%</td></tr>
+                  <tr><th>Exposure at default (EAD)</th><td>$1,200.00</td></tr>
+                  <tr class="total"><th>Expected credit loss (12-month)</th><td>$32.76</td></tr>
+                </table>
+              </section>
+
+              <section>
+                <h4>Policy checks</h4>
+                <table class="kv checks">
+                  <tr><th>Credit score floor (≥ 620)</th><td><span class="pass">Pass</span> 712</td></tr>
+                  <tr><th>Debt-to-income (≤ 45%)</th><td><span class="pass">Pass</span> 35%</td></tr>
+                  <tr><th>Revolving utilization (≤ 70%)</th><td><span class="pass">Pass</span> 31%</td></tr>
+                  <tr><th>Missed payments (0 allowed)</th><td><span class="pass">Pass</span> 0</td></tr>
+                  <tr><th>Income verification (required)</th><td><span class="pass">Pass</span> Verified</td></tr>
+                </table>
+              </section>
+
+              <section>
+                <h4>Key factors</h4>
+                <ul class="reasons">
+                  <li class="pos">Credit score 712, above the 620 floor</li>
+                  <li class="pos">No missed payments in the last 24 months</li>
+                  <li class="pos">Income verified</li>
+                  <li class="neg">Debt-to-income 35%, inside the 45% limit</li>
+                </ul>
+              </section>
+
+              <section>
+                <h4>Decision record</h4>
+                <table class="kv mono">
+                  <tr><th>Model</th><td>PD-BNPL-001 v1.2.0</td></tr>
+                  <tr><th>Record ID</th><td>decision-20261116-BNPL-APP-0042</td></tr>
+                  <tr><th>Timestamp</th><td>2026-11-16 18:14:19 UTC</td></tr>
+                  <tr><th>Policy</th><td>bnpl-standard</td></tr>
+                </table>
+              </section>
+            </div>
+
+            <footer class="report-foot">
+              <p>Illustrative example with synthetic data, in the format the product returns. A declined application carries coded adverse-action reasons (for example AA-01 to AA-05) in the same structure.</p>
+              <a class="button button-secondary" href="sample-decision-package.pdf" download>Download sample (PDF)</a>
+            </footer>
+          </article>
+        </div>
+      </section>
+
+      <!-- 4. Expected-loss calculator -->
+      <section class="demo" id="expected-loss">
+        <div class="container">
+          <div class="section-heading">
+            <span class="eyebrow">Why expected loss</span>
+            <h2>A score tells you who is risky. Expected loss tells you what the risk costs.</h2>
+          </div>
+
+          <dl class="glossary">
+            <div><dt>PD · probability of default</dt><dd>How likely this applicant is to stop paying within 12 months.</dd></div>
+            <div><dt>LGD · loss given default</dt><dd>If they stop, the share of the money you don't get back.</dd></div>
+            <div><dt>EAD · exposure at default</dt><dd>How much they will owe at that moment.</dd></div>
+            <div><dt>ECL · expected credit loss</dt><dd>The three multiplied: the dollars you should expect to lose on this order.</dd></div>
+          </dl>
+
+          <div class="demo-grid">
+            <form class="demo-inputs panel-card" id="elForm" aria-label="Expected loss calculator">
+              <label>
+                <span>Probability of default (12-month) <output id="pdOut">4.2%</output></span>
+                <input type="range" name="pd" min="0.5" max="40" step="0.1" value="4.2" />
+              </label>
+              <label>
+                <span>Loss if default <output id="lgdOut">65%</output></span>
+                <input type="range" name="lgd" min="10" max="100" step="1" value="65" />
+              </label>
+              <label>
+                <span>Exposure (order amount) <output id="eadOut">$1,200</output></span>
+                <input type="range" name="ead" min="100" max="5000" step="50" value="1200" />
+              </label>
+              <label>
+                <span>Your revenue on the order (merchant fee) <output id="feeOut">4.0%</output></span>
+                <input type="range" name="fee" min="0" max="10" step="0.1" value="4" />
+              </label>
+            </form>
+
+            <div class="demo-result panel-card" aria-live="polite">
+              <div class="panel-topline">Expected credit loss</div>
+              <div class="el-big" id="elValue">$32.76</div>
+              <p class="el-sub"><span id="elPct">2.73%</span> of the order is expected to be lost to credit risk.</p>
+              <div class="metrics-grid">
+                <div><label>Revenue on this order</label><strong id="revValue">$48.00</strong></div>
+                <div><label>After expected loss</label><strong id="netValue">$15.24</strong></div>
+              </div>
+              <p class="el-verdict" id="elVerdict"></p>
+              <p class="fineprint">ECL = PD × LGD × EAD. A simple teaching calculator, before funding, servicing and other costs.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Why CreditDrishti -->
+      <section class="process" id="why">
         <div class="container">
           <div class="section-heading">
             <span class="eyebrow">Why CreditDrishti</span>
-            <h2>Between spreadsheets and an enterprise suite</h2>
+            <h2>What you get compared with the alternatives</h2>
           </div>
 
           <div class="compare-wrap">
@@ -369,80 +368,125 @@
               <thead>
                 <tr>
                   <th scope="col"></th>
-                  <th scope="col">Spreadsheets &amp; manual review</th>
-                  <th scope="col">Enterprise decisioning suite</th>
+                  <th scope="col">Credit bureau score</th>
+                  <th scope="col">Rules / decision engine</th>
+                  <th scope="col">Build in-house</th>
                   <th scope="col" class="us">CreditDrishti</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row">Time to first results</th>
-                  <td>Immediate, but doesn't scale</td>
-                  <td>Typically a multi-month implementation</td>
-                  <td class="us">A pilot on your historical data</td>
+                  <th scope="row">What you get</th>
+                  <td>A number</td>
+                  <td>A place to run the rules and models you bring</td>
+                  <td>Whatever your team builds</td>
+                  <td class="us">The decision, the expected loss, the reasons and the record</td>
                 </tr>
                 <tr>
-                  <th scope="row">Reason for every decision</th>
-                  <td>Reconstructed by hand</td>
-                  <td>Usually, once configured</td>
-                  <td class="us">In every response by default</td>
+                  <th scope="row">Expected loss in dollars</th>
+                  <td>No</td>
+                  <td>Only if you build the models</td>
+                  <td>After PD, LGD and EAD models are built</td>
+                  <td class="us">On every application</td>
                 </tr>
                 <tr>
-                  <th scope="row">Expected loss per approval</th>
-                  <td>Rarely</td>
-                  <td>Often a separate module</td>
-                  <td class="us">Included</td>
+                  <th scope="row">Reason codes</th>
+                  <td>Generic score factors</td>
+                  <td>You write them</td>
+                  <td>You write them</td>
+                  <td class="us">Coded and tied to your policy</td>
                 </tr>
                 <tr>
-                  <th scope="row">Needs an in-house data-science team</th>
-                  <td>No, but no models either</td>
-                  <td>Often</td>
-                  <td class="us">No</td>
+                  <th scope="row">Risk team needed</th>
+                  <td>To turn the score into a policy</td>
+                  <td>To build and maintain models</td>
+                  <td>Several people for many months</td>
+                  <td class="us">One person to own the policy</td>
                 </tr>
                 <tr>
-                  <th scope="row">Built for</th>
-                  <td>Very early lenders</td>
-                  <td>Banks and large lenders</td>
-                  <td class="us">BNPL and embedded-finance scale-ups</td>
+                  <th scope="row">First results</th>
+                  <td>Immediate, but only a score</td>
+                  <td>After your models are ready</td>
+                  <td>Months</td>
+                  <td class="us">A backtest on your historical orders</td>
                 </tr>
               </tbody>
             </table>
           </div>
+
+          <div class="outcome-grid">
+            <article class="outcome">
+              <h3>Approve more orders at the same loss rate</h3>
+              <p>Decide on expected loss in dollars, not a score cut-off, so good applicants just below a cut-off aren't lost by default.</p>
+            </article>
+            <article class="outcome">
+              <h3>Fewer manual reviews</h3>
+              <p>Clear-cut applications are decided by policy. Only the genuinely borderline ones reach an analyst.</p>
+            </article>
+            <article class="outcome">
+              <h3>Ready for partner-bank diligence</h3>
+              <p>Every decision has its inputs, reasons, model version and timestamp, so "how do you decide?" has a document behind it.</p>
+            </article>
+          </div>
         </div>
       </section>
 
-      <!-- 7. Who it's for -->
-      <section class="feature-band" id="fit">
-        <div class="container fit">
-          <div class="section-heading left">
-            <span class="eyebrow">Built for</span>
-            <h2>BNPL and embedded-finance lenders at the scale-up stage</h2>
-            <p class="lede">
-              Not a full enterprise credit-risk suite. CreditDrishti is the layer you add when
-              spreadsheets stop working and a risk platform rebuild is still years away.
-            </p>
+      <!-- 6. Security and data -->
+      <section class="feature-band" id="security">
+        <div class="container">
+          <div class="section-heading">
+            <span class="eyebrow">Security &amp; data</span>
+            <h2>Start without sending us any personal data</h2>
           </div>
-          <ul class="fit-list">
-            <li>You handle thousands of applications a month</li>
-            <li>Your risk team is a handful of people</li>
-            <li>Manual review is slowing approvals</li>
-            <li>You need a clear reason for every decline</li>
-          </ul>
+
+          <div class="card-grid">
+            <article class="info-card">
+              <h3>What a backtest needs</h3>
+              <p>
+                An anonymised loan tape: application fields, decisions and repayment outcomes. No
+                names, Social Security numbers, addresses or contact details.
+              </p>
+            </article>
+            <article class="info-card">
+              <h3>Where it runs</h3>
+              <p>
+                In our environment for a backtest, or inside your own cloud as a container if you
+                prefer data never to leave it.
+              </p>
+            </article>
+            <article class="info-card">
+              <h3>Where we are today</h3>
+              <p>
+                We are an early-stage company and do not yet hold a SOC 2 report. Reason codes are
+                designed to support ECOA / Regulation B adverse-action notices; your compliance team
+                remains the decision-maker.
+              </p>
+            </article>
+          </div>
         </div>
       </section>
     </main>
 
-    <!-- 8. Design-partner offer + form -->
+    <!-- 7. Pilot + who it's for + form -->
     <section class="cta-banner" id="pilot">
-      <div class="container cta-banner-inner">
+      <div class="container pilot-grid" id="who">
         <div>
-          <span class="eyebrow">Design partner program</span>
-          <h3>We're onboarding a small group of BNPL lenders as design partners.</h3>
+          <span class="eyebrow">Design partner backtest</span>
+          <h3>Backtest your last 6 months of orders.</h3>
           <p class="pilot-copy">
-            Share an anonymised historical loan tape (no personal data needed). We'll run it
-            through CreditDrishti and show you how many manual reviews could be automated, how
-            consistent past decisions were, and a sample reason pack for your declines.
+            Send an anonymised loan tape. We run every order through CreditDrishti and show you, on
+            your own history, how decisions, review volume and expected loss would have changed.
+            We agree the measures with you before we start.
           </p>
+        </div>
+        <div>
+          <h4 class="fit-title">Built for US lenders who…</h4>
+          <ul class="fit-list">
+            <li>Offer BNPL, pay-in-4 or embedded instalment credit</li>
+            <li>Handle thousands of applications a month</li>
+            <li>Have a small risk team and a growing review queue</li>
+            <li>Need a clear reason for every decline</li>
+          </ul>
         </div>
       </div>
       <div class="container">
@@ -483,11 +527,11 @@
             <span>What's the biggest underwriting headache right now?</span>
             <textarea name="message" rows="4" required maxlength="4000"></textarea>
           </label>
-          <input type="hidden" name="_subject" value="New design-partner request — CreditDrishti" />
+          <input type="hidden" name="_subject" value="New backtest request — CreditDrishti" />
           <!-- Honeypot: hidden from people; Formspree drops submissions that fill it -->
           <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
           <div class="form-actions">
-            <button class="button button-primary" type="submit">Apply as a design partner</button>
+            <button class="button button-primary" type="submit">Request a backtest</button>
             <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
           </div>
           <p class="fineprint">
@@ -501,13 +545,14 @@
       <div class="container footer-row">
         <div>
           <h3>CreditDrishti</h3>
-          <p>
-            Clear sight into every credit decision. Now onboarding our first design partners.
-          </p>
+          <p>Credit decisioning and risk infrastructure for US BNPL and embedded-finance lenders.</p>
         </div>
-        <nav class="footer-links">
-          <a href="#pilot">Contact</a>
+        <nav class="footer-links" aria-label="Footer">
+          <a href="#product">Sample decision package</a>
+          <a href="#security">Security</a>
           <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+          <a href="#pilot">Contact</a>
           <span>© 2026 CreditDrishti</span>
         </nav>
       </div>

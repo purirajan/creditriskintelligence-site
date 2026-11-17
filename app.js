@@ -1,103 +1,78 @@
-// ---------------------------------------------------------------------------
-// Interactive demo: a small illustrative scoring model that runs in the browser.
-// It is NOT the production model and sends no data anywhere. Defaults are tuned
-// to reproduce the hero example: PD 4.2%, Grade B, expected loss $32.76.
-// ---------------------------------------------------------------------------
-const POLICY = { minScore: 560, maxDti: 0.5, maxMissed: 3, approvePd: 0.06, reviewPd: 0.15 };
-const LOSS_IF_DEFAULT = 0.65; // unsecured BNPL
-const BASE_LOG_ODDS = Math.log(0.042 / 0.958); // PD at the default applicant
-
 const money = (n) =>
   n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 });
 
-function grade(pd) {
-  if (pd < 0.02) return 'A';
-  if (pd < 0.06) return 'B';
-  if (pd < 0.12) return 'C';
-  if (pd < 0.25) return 'D';
-  return 'E';
+// ---------------------------------------------------------------------------
+// Hero example tabs (Approve / Decline), with arrow-key support.
+// ---------------------------------------------------------------------------
+const tabs = [...document.querySelectorAll('[role="tab"]')];
+
+function selectTab(tab) {
+  tabs.forEach((t) => {
+    const selected = t === tab;
+    t.setAttribute('aria-selected', String(selected));
+    t.tabIndex = selected ? 0 : -1;
+    document.getElementById(t.getAttribute('aria-controls')).hidden = !selected;
+  });
 }
 
-function assess({ score, dti, missed, amount, verified }) {
-  const z =
-    BASE_LOG_ODDS -
-    0.012 * (score - 680) +
-    5 * (dti - 0.35) +
-    0.55 * missed +
-    (verified ? 0 : 0.6);
-  const pd = 1 / (1 + Math.exp(-z));
+tabs.forEach((tab, i) => {
+  tab.addEventListener('click', () => selectTab(tab));
+  tab.addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    const next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+    selectTab(next);
+    next.focus();
+  });
+});
 
-  // Hard policy rules first, then the risk-based decision.
-  const ruleBreaks = [];
-  if (score < POLICY.minScore) ruleBreaks.push(`Credit score below policy minimum (${POLICY.minScore})`);
-  if (dti > POLICY.maxDti) ruleBreaks.push(`Debt-to-income above policy limit (${POLICY.maxDti * 100}%)`);
-  if (missed > POLICY.maxMissed) ruleBreaks.push(`More than ${POLICY.maxMissed} missed payments`);
+// ---------------------------------------------------------------------------
+// Expected-loss calculator: ECL = PD × LGD × EAD, compared with order revenue.
+// Pure arithmetic, no model. Defaults match the hero example ($32.76).
+// ---------------------------------------------------------------------------
+const elForm = document.getElementById('elForm');
 
-  let decision = 'APPROVE';
-  if (ruleBreaks.length || pd >= POLICY.reviewPd) decision = 'DECLINE';
-  else if (pd >= POLICY.approvePd) decision = 'REVIEW';
-
-  const reasons = ruleBreaks.map((text) => ({ text, kind: 'neg' }));
-  const dtiPct = Math.round(dti * 100);
-  if (score >= 720) reasons.push({ text: `Strong credit score (${score})`, kind: 'pos' });
-  else if (score < 640 && score >= POLICY.minScore)
-    reasons.push({ text: `Credit score below target range (${score})`, kind: 'neg' });
-  if (missed === 0) reasons.push({ text: 'No missed payments in the last 2 years', kind: 'pos' });
-  else if (missed <= POLICY.maxMissed)
-    reasons.push({ text: `${missed} missed payment${missed > 1 ? 's' : ''} in the last 2 years`, kind: 'neg' });
-  reasons.push(verified ? { text: 'Income verified', kind: 'pos' } : { text: 'Income not verified', kind: 'neg' });
-  if (dti <= 0.3) reasons.push({ text: `Low debt-to-income (${dtiPct}%)`, kind: 'pos' });
-  else if (dti <= POLICY.maxDti)
-    reasons.push({ text: `Debt-to-income at ${dtiPct}% (policy limit ${POLICY.maxDti * 100}%)`, kind: 'neg' });
-
-  return { pd, grade: grade(pd), decision, expectedLoss: pd * LOSS_IF_DEFAULT * amount, reasons: reasons.slice(0, 4) };
-}
-
-const demoForm = document.getElementById('demoForm');
-if (demoForm) {
-  const el = (id) => document.getElementById(id);
+if (elForm) {
+  const $ = (id) => document.getElementById(id);
 
   const render = () => {
-    const f = demoForm.elements;
-    const input = {
-      score: Number(f.score.value),
-      dti: Number(f.dti.value) / 100,
-      missed: Number(f.delq.value),
-      amount: Number(f.amount.value),
-      verified: f.verified.checked
-    };
+    const f = elForm.elements;
+    const pd = Number(f.pd.value) / 100;
+    const lgd = Number(f.lgd.value) / 100;
+    const ead = Number(f.ead.value);
+    const fee = Number(f.fee.value) / 100;
 
-    el('scoreOut').textContent = input.score;
-    el('dtiOut').textContent = `${f.dti.value}%`;
-    el('delqOut').textContent = input.missed;
-    el('amountOut').textContent = money(input.amount).replace('.00', '');
+    const ecl = pd * lgd * ead;
+    const revenue = fee * ead;
+    const net = revenue - ecl;
+    const breakEvenFee = pd * lgd * 100;
 
-    const r = assess(input);
-    const badge = el('demoBadge');
-    badge.textContent = r.decision;
-    badge.className = `badge badge-${r.decision.toLowerCase()}`;
-    el('demoGrade').textContent = `Grade ${r.grade}`;
-    el('demoPd').textContent = `${(r.pd * 100).toFixed(1)}%`;
-    el('demoEl').textContent = money(r.expectedLoss);
+    $('pdOut').textContent = `${Number(f.pd.value).toFixed(1)}%`;
+    $('lgdOut').textContent = `${f.lgd.value}%`;
+    $('eadOut').textContent = money(ead).replace('.00', '');
+    $('feeOut').textContent = `${Number(f.fee.value).toFixed(1)}%`;
 
-    const list = el('demoReasons');
-    list.replaceChildren(
-      ...r.reasons.map(({ text, kind }) => {
-        const li = document.createElement('li');
-        li.className = kind;
-        li.textContent = text;
-        return li;
-      })
-    );
+    $('elValue').textContent = money(ecl);
+    $('elPct').textContent = `${breakEvenFee.toFixed(2)}%`;
+    $('revValue').textContent = money(revenue);
+    $('netValue').textContent = net < 0 ? `−${money(-net)}` : money(net);
+
+    const verdict = $('elVerdict');
+    if (net >= 0) {
+      verdict.className = 'el-verdict ok';
+      verdict.textContent = `Covered: revenue exceeds expected loss. Break-even fee for this risk is ${breakEvenFee.toFixed(2)}%.`;
+    } else {
+      verdict.className = 'el-verdict err';
+      verdict.textContent = `Not covered: you need at least ${breakEvenFee.toFixed(2)}% on this order just to cover expected credit loss.`;
+    }
   };
 
-  demoForm.addEventListener('input', render);
-  demoForm.addEventListener('submit', (e) => e.preventDefault());
+  elForm.addEventListener('input', render);
+  elForm.addEventListener('submit', (e) => e.preventDefault());
   render();
 }
 
 // ---------------------------------------------------------------------------
-// Design-partner form: submits to Formspree without leaving the page.
+// Backtest request form: submits to Formspree without leaving the page.
 // Without JavaScript, the form still posts normally via its action attribute.
 // ---------------------------------------------------------------------------
 const contactForm = document.getElementById('contactForm');
