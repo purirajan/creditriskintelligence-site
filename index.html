@@ -70,8 +70,8 @@
             <h1>Every credit decision, with the expected loss and the reason attached.</h1>
             <p>
               Most tools hand you a score. CreditDrishti returns one structured package instead:
-              approve, review or decline, the probability of default, the expected loss in dollars,
-              and plain-language reason codes. One API call, and every decision comes back as a
+              approve, counteroffer or decline, the probability of default, the expected loss in
+              dollars next to the fee you earn, and plain-language reason codes. One API call, and every decision comes back as a
               record you keep.
             </p>
             <div class="cta-row">
@@ -88,6 +88,7 @@
             <div class="panel-card panel-highlight">
               <div class="tabs" role="tablist" aria-label="Example decisions">
                 <button role="tab" id="tab-approve" aria-controls="ex-approve" aria-selected="true">Approve</button>
+                <button role="tab" id="tab-counter" aria-controls="ex-counter" aria-selected="false" tabindex="-1">Counteroffer</button>
                 <button role="tab" id="tab-decline" aria-controls="ex-decline" aria-selected="false" tabindex="-1">Decline</button>
               </div>
 
@@ -98,15 +99,34 @@
                   <span class="risk-score">Grade BBB</span>
                 </div>
                 <div class="metrics-grid">
-                  <div><label>12-month PD</label><strong>3.49%</strong></div>
-                  <div><label>Exposure</label><strong>$1,200</strong></div>
-                  <div><label>Loss if default</label><strong>65%</strong></div>
-                  <div><label>Expected loss</label><strong>$27.23</strong></div>
+                  <div><label>12-month PD</label><strong>2.32%</strong></div>
+                  <div><label>Financed after 25% down</label><strong>$900</strong></div>
+                  <div><label>Expected loss</label><strong>$1.71</strong></div>
+                  <div><label>Merchant fee</label><strong>$48.30</strong></div>
                 </div>
                 <ul class="reasons">
-                  <li class="pos">Credit score 712 lowers risk (policy floor 620)</li>
-                  <li class="pos">No missed payments · income verified</li>
+                  <li class="pos">4 earlier plans repaid on time lowers risk the most</li>
+                  <li class="pos">Credit score 712 lowers risk</li>
                   <li class="neg">18 months of credit history slightly raises risk</li>
+                </ul>
+              </div>
+
+              <div role="tabpanel" id="ex-counter" aria-labelledby="tab-counter" hidden>
+                <div class="panel-topline">Order BNPL-APP-0088 · $600 pay-in-4</div>
+                <div class="decision-row">
+                  <span class="badge badge-review">COUNTEROFFER</span>
+                  <span class="risk-score">Grade CCC</span>
+                </div>
+                <div class="metrics-grid">
+                  <div><label>12-month PD</label><strong>27.4%</strong></div>
+                  <div><label>Financed after 35% down</label><strong>$390</strong></div>
+                  <div><label>Expected loss</label><strong>$9.94</strong></div>
+                  <div><label>Loss budget</label><strong>$10.55</strong></div>
+                </div>
+                <ul class="reasons">
+                  <li class="neg">Offer: $600 with 35% paid at checkout instead of 25%</li>
+                  <li class="neg">Credit score 610 · utilization 55%</li>
+                  <li class="neg">2 active payment plans</li>
                 </ul>
               </div>
 
@@ -117,15 +137,15 @@
                   <span class="risk-score">Grade D</span>
                 </div>
                 <div class="metrics-grid">
-                  <div><label>12-month PD</label><strong>43.6%</strong></div>
-                  <div><label>Exposure</label><strong>$900</strong></div>
-                  <div><label>Loss if default</label><strong>65%</strong></div>
-                  <div><label>Expected loss</label><strong>$255.05</strong></div>
+                  <div><label>12-month PD</label><strong>72.5%</strong></div>
+                  <div><label>Financed after 25% down</label><strong>$675</strong></div>
+                  <div><label>Expected loss</label><strong>$65.36</strong></div>
+                  <div><label>Loss budget</label><strong>$15.92</strong></div>
                 </div>
                 <ul class="reasons">
-                  <li class="neg">AA-01 · Credit score 605, below policy floor of 620</li>
-                  <li class="neg">AA-04 · 1 missed payment (policy allows none)</li>
-                  <li class="neg">AA-02 · Debt-to-income 48%, above policy limit of 45%</li>
+                  <li class="neg">BN-11 · Expected loss above the loss budget, even at 50% down</li>
+                  <li class="neg">Credit score 605 · 2 late payments on previous plans</li>
+                  <li class="neg">Utilization 74%</li>
                 </ul>
               </div>
 
@@ -152,55 +172,62 @@
             <li>
               <span class="flow-step">2</span>
               <h3>Policy rules</h3>
-              <p>Your hard limits first: credit score floor, debt-to-income, missed payments, income verification</p>
+              <p>Your hard limits first: fraud screen, overdue plans, active plans, order size, card type</p>
             </li>
             <li>
               <span class="flow-step">3</span>
               <h3>Risk scoring</h3>
-              <p>12-month probability of default, loss if default, exposure and expected loss</p>
+              <p>Probability of default over the plan's term, and expected loss against the fee you earn</p>
             </li>
             <li>
               <span class="flow-step">4</span>
               <h3>Decision package</h3>
-              <p>Approve, review or decline, reason codes and a decision record, in one response</p>
+              <p>Approve, counteroffer or decline, reason codes and a decision record, in one response</p>
             </li>
           </ol>
           <p class="flow-loop">
             <span aria-hidden="true">↺</span> Decisions and repayment outcomes feed portfolio
-            monitoring: approval and review rates by risk grade, and alerts when a segment drifts
-            from expected loss.
+            monitoring: approval, counteroffer and decline rates by risk grade, and alerts when
+            expected loss outgrows merchant fees.
           </p>
 
           <div class="platform-grid">
             <div class="code-card panel-card">
               <div class="code-head">
-                <span>POST /v1/score</span>
+                <span>POST /v1/bnpl/decision</span>
                 <span class="muted">real response · synthetic applicant</span>
               </div>
 <pre><code>{
   "application_id": "BNPL-APP-0042",
+  "bnpl_product": "pay_in_4",
+  "order_amount": 1200,
   "fico_score": 712,
-  "dti_ratio": 0.35,
   "utilization_rate": 0.31,
   "months_on_book": 18,
-  "delinquency_count": 0,
-  "income_verified": 1
+  "prior_bnpl_loans_repaid": 4,
+  "active_bnpl_plans": 1,
+  "funding_instrument": "debit",
+  "fraud_risk_score": 0.04
 }
 
 → 200 OK
 {
-  "pd_estimate": 0.034914,
+  "decision": "APPROVE",
+  "approved_amount": 1200.0,
+  "down_payment_rate": 0.25,
+  "pd_12_month": 0.023185,
+  "pd_term": 0.002928,
   "risk_grade": "BBB",
-  "decision_recommendation": "APPROVE",
+  "unit_economics": {
+    "financed_amount": 900.0,
+    "merchant_fee": 48.3,
+    "expected_loss": 1.71,
+    "loss_budget": 21.43,
+    "contribution_after_expected_loss": 41.15
+  },
   "decision_reasons": [],
-  "policy_checks": ["credit_score_ok", "dti_ok",
-    "utilization_ok", "delinquency_ok",
-    "income_verified", "pd_within_approval_threshold"],
   "governance": {
-    "model_id": "PD-CONSUMER-001",
-    "model_version": "2.0.0",
-    "record_id": "record-20261116181419",
-    "timestamp": "2026-11-16T18:14:19Z",
+    "policy_version": "BNPL-POLICY-2026.11",
     "environment": "prototype"
   }
 }</code></pre>
@@ -260,32 +287,36 @@
 
             <div class="report-grid">
               <section>
-                <h4>Risk numbers</h4>
+                <h4>Risk and unit economics</h4>
                 <table class="kv">
-                  <tr><th>Probability of default (12-month)</th><td>3.49%</td></tr>
+                  <tr><th>Probability of default (12-month)</th><td>2.32%</td></tr>
+                  <tr><th>Probability of default (6-week plan)</th><td>0.29%</td></tr>
                   <tr><th>Loss if default (LGD)</th><td>65%</td></tr>
-                  <tr><th>Exposure at default (EAD)</th><td>$1,200.00</td></tr>
-                  <tr class="total"><th>Expected credit loss (12-month)</th><td>$27.23</td></tr>
+                  <tr><th>Financed after 25% down</th><td>$900.00</td></tr>
+                  <tr><th>Merchant fee (4% + $0.30)</th><td>$48.30</td></tr>
+                  <tr><th>Processing and funding cost</th><td>$5.44</td></tr>
+                  <tr><th>Expected loss</th><td>$1.71</td></tr>
+                  <tr class="total"><th>Contribution after expected loss</th><td>$41.15</td></tr>
                 </table>
               </section>
 
               <section>
                 <h4>Policy checks</h4>
                 <table class="kv checks">
-                  <tr><th>Credit score floor (≥ 620)</th><td><span class="pass">Pass</span> 712</td></tr>
-                  <tr><th>Debt-to-income (≤ 45%)</th><td><span class="pass">Pass</span> 35%</td></tr>
-                  <tr><th>Revolving utilization (≤ 70%)</th><td><span class="pass">Pass</span> 31%</td></tr>
-                  <tr><th>Missed payments (0 allowed)</th><td><span class="pass">Pass</span> 0</td></tr>
-                  <tr><th>Income verification (required)</th><td><span class="pass">Pass</span> Verified</td></tr>
-                  <tr><th>PD below approval threshold (&lt; 10%)</th><td><span class="pass">Pass</span> 3.49%</td></tr>
+                  <tr><th>Fraud score (decline at 0.80)</th><td><span class="pass">Pass</span> 0.04</td></tr>
+                  <tr><th>Card type (no prepaid)</th><td><span class="pass">Pass</span> Debit</td></tr>
+                  <tr><th>Overdue plans (none allowed)</th><td><span class="pass">Pass</span> 0</td></tr>
+                  <tr><th>Active plans (fewer than 5)</th><td><span class="pass">Pass</span> 1</td></tr>
+                  <tr><th>Order size ($35 to $1,500)</th><td><span class="pass">Pass</span> $1,200</td></tr>
+                  <tr><th>Expected loss within budget ($21.43)</th><td><span class="pass">Pass</span> $1.71</td></tr>
                 </table>
               </section>
 
               <section>
                 <h4>What moved the risk</h4>
                 <ul class="reasons">
-                  <li class="pos">Credit score 712 lowers risk the most</li>
-                  <li class="pos">No missed payments, income verified</li>
+                  <li class="pos">4 earlier plans repaid on time lowers risk the most</li>
+                  <li class="pos">Credit score 712 lowers risk</li>
                   <li class="neg">18 months of credit history slightly raises risk</li>
                   <li class="neg">Utilization 31%, close to neutral</li>
                 </ul>
@@ -294,16 +325,16 @@
               <section>
                 <h4>Decision record</h4>
                 <table class="kv mono">
-                  <tr><th>Model</th><td>PD-BNPL-001 v2.0.0</td></tr>
-                  <tr><th>Record ID</th><td>decision-20261116181419-BNPL-APP-0042</td></tr>
-                  <tr><th>Timestamp</th><td>2026-11-16 18:14:19 UTC</td></tr>
-                  <tr><th>Thresholds</th><td>BNPL policy, recorded in full</td></tr>
+                  <tr><th>Model</th><td>PD-CONSUMER-001 v2.0.0</td></tr>
+                  <tr><th>Policy</th><td>BNPL-POLICY-2026.11 · pay-in-4</td></tr>
+                  <tr><th>Record ID</th><td>bnpl-3f9c2a71d04e8b65</td></tr>
+                  <tr><th>Timestamp</th><td>2026-11-17 18:14:19 UTC</td></tr>
                 </table>
               </section>
             </div>
 
             <footer class="report-foot">
-              <p>Generated by the CreditDrishti scoring engine for a synthetic applicant. A declined application carries coded adverse-action reasons (AA-01 to AA-06) in the same structure. Grades run AAA to D.</p>
+              <p>Generated by the CreditDrishti decision engine for a synthetic applicant. A counteroffer or decline carries coded reasons (BN-01 to BN-11) and the principal risk factors behind it in the same structure. Grades run AAA to D.</p>
               <a class="button button-secondary" href="sample-decision-package.pdf" download>Download sample (PDF)</a>
             </footer>
           </article>
@@ -312,9 +343,9 @@
             <figcaption>
               <h3>And the whole book at a glance</h3>
               <p>
-                The portfolio view shows approval, review and decline rates against your policy
-                targets, approved exposure, expected loss in dollars, and where the risk sits by
-                grade.
+                The portfolio view shows approval, counteroffer and decline rates against your
+                targets, booked volume, expected loss against merchant fees, and where the risk sits
+                by grade.
               </p>
             </figcaption>
             <img
@@ -322,7 +353,7 @@
               width="1440"
               height="760"
               loading="lazy"
-              alt="CreditDrishti portfolio dashboard for 500 synthetic BNPL applications: approve rate 49.4%, review rate 47.4% against a 25% maximum, decline rate 3.2%, average 12-month PD 7.79%, approved exposure $91,205 and expected loss on the approved book of $2,204 (2.42%), with a table of applications, exposure, expected loss and loss rate by risk grade from AA to D."
+              alt="CreditDrishti portfolio dashboard for 500 synthetic BNPL orders: approve rate 90.4%, counteroffer rate 3.2%, decline rate 6.4%, average 12-month PD 7.31%, booked volume $180,135 of $193,335 requested, and expected loss of $762 against $7,346 of merchant fees (10%), with a table of applications, exposure, expected loss and loss rate by risk grade."
             />
             <p class="fineprint">
               Real screenshot of the CreditDrishti dashboard scoring 500 synthetic applications
@@ -350,8 +381,8 @@
           <div class="demo-grid">
             <form class="demo-inputs panel-card" id="elForm" aria-label="Expected loss calculator">
               <label>
-                <span>Probability of default (12-month) <output id="pdOut">3.49%</output></span>
-                <input type="range" name="pd" min="0.5" max="40" step="any" value="3.4914" />
+                <span>Probability of default (12-month) <output id="pdOut">2.32%</output></span>
+                <input type="range" name="pd" min="0.5" max="60" step="any" value="2.3185" />
               </label>
               <label>
                 <span>Loss if default <output id="lgdOut">65%</output></span>
@@ -369,14 +400,14 @@
 
             <div class="demo-result panel-card" aria-live="polite">
               <div class="panel-topline">Expected credit loss</div>
-              <div class="el-big" id="elValue">$27.23</div>
-              <p class="el-sub"><span id="elPct">2.27%</span> of the order is expected to be lost to credit risk.</p>
+              <div class="el-big" id="elValue">$1.71</div>
+              <p class="el-sub"><span id="elPct">0.14%</span> of the order is expected to be lost to credit risk.</p>
               <div class="metrics-grid">
                 <div><label>Revenue on this order</label><strong id="revValue">$48.00</strong></div>
-                <div><label>After expected loss</label><strong id="netValue">$20.77</strong></div>
+                <div><label>After expected loss</label><strong id="netValue">$46.29</strong></div>
               </div>
               <p class="el-verdict" id="elVerdict"></p>
-              <p class="fineprint">ECL = PD × LGD × EAD. A simple teaching calculator, before funding, servicing and other costs.</p>
+              <p class="fineprint">For a pay-in-4 plan: 6 weeks, 25% paid at checkout. ECL = PD over 6 weeks × LGD × the 75% financed. A simple teaching calculator, before funding, servicing and other costs.</p>
             </div>
           </div>
         </div>
@@ -396,7 +427,7 @@
               You can. Building in-house means PD, LGD and exposure models, a rules engine,
               reason codes that map to adverse-action notices, and a record of every decision,
               then keeping all of it in step every time your policy changes. Most BNPL risk teams
-              are a handful of people already running the review queue. CreditDrishti gives you
+              are a handful of people already stretched across policy, fraud and collections. CreditDrishti gives you
               that structure from the start, so your team's time goes into the credit policy, not
               the plumbing around it.
             </p>
@@ -459,8 +490,8 @@
               <p>Decide on expected loss in dollars, not a score cut-off, so good applicants just below a cut-off aren't lost by default.</p>
             </article>
             <article class="outcome">
-              <h3>Fewer manual reviews</h3>
-              <p>Clear-cut applications are decided by policy. Only the genuinely borderline ones reach an analyst.</p>
+              <h3>Counteroffers instead of lost sales</h3>
+              <p>When an order doesn't fit the loss budget, offer a bigger down payment or a smaller amount at checkout. No one waits for an analyst.</p>
             </article>
             <article class="outcome">
               <h3>Ready for partner-bank diligence</h3>
@@ -551,7 +582,7 @@
           <h3>Backtest your last 6 months of orders.</h3>
           <p class="pilot-copy">
             Send an anonymised loan tape. We run every order through CreditDrishti and show you, on
-            your own history, how decisions, review volume and expected loss would have changed.
+            your own history, how approvals, counteroffers and expected loss would have changed.
             We agree the measures with you before we start.
           </p>
         </div>
@@ -560,7 +591,7 @@
           <ul class="fit-list">
             <li>Offer BNPL, pay-in-4 or embedded instalment credit</li>
             <li>Handle thousands of applications a month</li>
-            <li>Have a small risk team and a growing review queue</li>
+            <li>Have a small risk team and thin margins on every order</li>
             <li>Need a clear reason for every decline</li>
           </ul>
         </div>

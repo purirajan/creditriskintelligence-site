@@ -83,12 +83,15 @@ together from fresh engine output:
 
 | Example | Numbers |
 |---|---|
-| Approve (BNPL-APP-0042) | PD 3.49% × LGD 65% × $1,200 = **$27.23** expected loss, grade BBB |
-| Decline (BNPL-APP-0117) | PD 43.6% × LGD 65% × $900 = **$255.05** expected loss, grade D |
+| Approve (BNPL-APP-0042) | $1,200 pay-in-4 · 12-month PD 2.32% (0.29% over 6 weeks) × LGD 65% × $900 financed = **$1.71** expected loss against a $48.30 merchant fee, grade BBB |
+| Counteroffer (BNPL-APP-0088) | $600 pay-in-4 · 12-month PD 27.4% · 35% down instead of 25% · **$9.94** expected loss within a $10.55 budget, grade CCC |
+| Decline (BNPL-APP-0117) | $900 pay-in-4 · 12-month PD 72.5% · **$65.36** expected loss against a $15.92 budget, grade D |
+| Dashboard (500 synthetic orders) | approve 90.4% · counteroffer 3.2% · decline 6.4% · expected loss $762 against $7,346 of merchant fees |
 
+They come from the BNPL checkout policy (`POST /v1/bnpl/decision`, policy BNPL-POLICY-2026.11).
 They appear in the hero tabs, the sample decision package, the API example (`index.html`), the
-calculator defaults (`index.html`, `app.js`), `assets-src/sample-report.html` and
-`assets-src/og-card.html`. Grades use the product's AAA–D scale.
+calculator defaults (`index.html`, `app.js`), the dashboard screenshot and its alt text,
+`assets-src/sample-report.html` and `assets-src/og-card.html`. Grades use the product's AAA–D scale.
 
 ## License
 
