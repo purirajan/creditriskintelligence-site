@@ -26,8 +26,10 @@ tabs.forEach((tab, i) => {
 });
 
 // ---------------------------------------------------------------------------
-// Expected-loss calculator: ECL = PD × LGD × EAD, compared with order revenue.
-// Pure arithmetic, no model. Defaults match the hero example ($27.23).
+// Expected-loss calculator for a pay-in-4 plan (6 weeks, 25% paid at checkout):
+// ECL = PD over 6 weeks × LGD × financed amount, compared with order revenue.
+// PD over 6 weeks = 1 - (1 - 12-month PD)^(1.5 / 12). Pure arithmetic, no model.
+// Defaults match the hero example ($1.71).
 // ---------------------------------------------------------------------------
 const elForm = document.getElementById('elForm');
 
@@ -41,10 +43,11 @@ if (elForm) {
     const ead = Number(f.ead.value);
     const fee = Number(f.fee.value) / 100;
 
-    const ecl = pd * lgd * ead;
+    const termPd = 1 - (1 - pd) ** (1.5 / 12);
+    const ecl = termPd * lgd * ead * 0.75;
     const revenue = fee * ead;
     const net = revenue - ecl;
-    const breakEvenFee = pd * lgd * 100;
+    const breakEvenFee = (ecl / ead) * 100;
 
     $('pdOut').textContent = `${Number(f.pd.value).toFixed(2)}%`;
     $('lgdOut').textContent = `${f.lgd.value}%`;
